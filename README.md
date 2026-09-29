@@ -17,8 +17,8 @@
 > **How it was built:** this is a fun side project developed with heavy AI assistance. Much of the
 > code, tests and documentation were written with an AI coding assistant (Claude) working from my
 > direction, planning and review of the results, and commits carry a co-author trailer to say so.
-> It is nowhere near complete and has not had an independent code review, so treat it as a
-> prototype, not as a reference implementation.
+> I monitored and reviewed the work throughout, but it is nowhere near complete and still needs more
+> review, so treat it as a prototype, not as a reference implementation.
 
 AutoDub takes a video file and produces an English-dubbed copy: it separates dialogue from music
 and effects, transcribes and translates the Japanese, works out who is speaking, clones each
