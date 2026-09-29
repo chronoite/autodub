@@ -7,11 +7,9 @@ whose interpreter path you give AutoDub.
 
 ## 1. Application
 
-```bash
-git clone <this repository> autodub
-cd autodub
-python -m venv .venv
-.venv\Scripts\activate            # Linux/macOS: source .venv/bin/activate
+```powershell
+git clone https://github.com/chronoite/autodub.git; cd autodub
+python -m venv .venv; .venv\Scripts\Activate.ps1     # Linux/macOS: source .venv/bin/activate
 pip install -e ".[download]"      # [download] adds huggingface_hub for scripts/download_models.py
 ```
 
@@ -28,17 +26,17 @@ Install **FFmpeg** (with ffprobe) and either put it on `PATH` or set `AUTODUB_FF
 | chatterbox | `AUTODUB_PYTHON_CHATTERBOX` | `requirements/chatterbox.txt` | TTS experiments only |
 | cosyvoice | `AUTODUB_PYTHON_COSYVOICE` | `requirements/cosyvoice.txt` | TTS experiments only |
 
-Example for the CPU environment on Windows:
+Example for the CPU environment on Windows (PowerShell):
 
-```bash
+```powershell
 python -m venv envs\media
 envs\media\Scripts\pip install -r requirements\media.txt
-set AUTODUB_PYTHON_MEDIA=%CD%\envs\media\Scripts\python.exe
+$env:AUTODUB_PYTHON_MEDIA = "$PWD\envs\media\Scripts\python.exe"
 ```
 
 For the GPU environments, install the CUDA build of PyTorch that matches the version pinned in the
-requirements file first (from https://pytorch.org), then the rest of the file. Any environment
-left unset falls back to the interpreter running AutoDub.
+requirements file first (from https://pytorch.org), then the rest of the file. Unset environments
+fall back to the media environment, which itself defaults to the interpreter running AutoDub.
 
 ## 3. Models
 
@@ -91,4 +89,4 @@ All settings are environment variables; `.env.example` lists every one with its 
 | `AUTODUB_RUNTIME_DEPS` | `<repo>/runtime_deps` | optional extra site-packages for CPU workers |
 
 Tuning constants (voice-bank thresholds, timing budgets, mix and thermal limits) are named constants
-in `src/autodub/config.py`, each documented with the measurement it came from.
+in `src/autodub/config.py`, with comments explaining where the key values came from.

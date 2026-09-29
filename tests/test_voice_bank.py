@@ -193,8 +193,8 @@ class TestCharactersGlue(unittest.TestCase):
         from autodub import characters
         self.assertEqual(
             characters.guess_series(
-                "STAR.ROAD.The.Last.Courier.S01E01.1080p.WEB-DL.mkv"),
-            "STAR ROAD The Last Courier")
+                "Example.Show.S01E01.1080p.mkv"),
+            "Example Show")
         self.assertEqual(characters.guess_series("plain-file.mkv"), "plain-file")
         self.assertEqual(characters.guess_series(""), "untitled-series")
 

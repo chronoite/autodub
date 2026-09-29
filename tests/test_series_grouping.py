@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Hermetic contracts for the DubProjects cross-episode clustering (_cluster).
+"""Hermetic contracts for the series view cross-episode clustering (_cluster).
 
 After single-link joining produced a mixed 15-speaker group, joins became complete-linkage at the identity (match) threshold. These tests pin the two
 properties that rule bought: no transitive chaining through a shared middle member, and

@@ -212,7 +212,7 @@ def replay_manual_marks(job: dict) -> int:
 def mark_song_range(job_id: str, *, start: int, end: int, mark: bool) -> dict:
     """Manual mark/unmark over HTTP: validate, apply, journal the operation, refresh
     song_summary, and log ONE job event (indices/counts only — never dialogue text)."""
-    from .state import event, load_job, save_job
+    from .state import event, load_job
 
     job = load_job(job_id)
     if job.get("status") == "running":

@@ -12,7 +12,7 @@ from .workflow import audit_timing
 
 
 def _safe_line_set(value: str) -> str:
-    if value not in {"lines", "lines-v3"}:
+    if value not in {"lines"}:
         raise ValueError("unsupported line set")
     return value
 

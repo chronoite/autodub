@@ -19,7 +19,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from autodub.config import WORK_ROOT  # noqa: E402
 
-from autodub.config import FFMPEG, RUNTIME_DEPS, runtime_env
+from autodub.config import FFMPEG, runtime_env
 from autodub.gpu_session import (
     HEARTBEAT_FAILURE_LIMIT,
     LEASE_TTL_SECONDS,

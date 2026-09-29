@@ -23,7 +23,7 @@ python -m unittest discover -s tests -t .
 ## End-to-end smoke test
 
 ```bash
-python scripts/smoke_test.py            # synthetic clip, CPU pipeline, real models
+python scripts/smoke_test.py            # synthetic clip (Windows speech voices), CPU pipeline, real models
 python scripts/smoke_test.py --source clip.mkv --keep
 ```
 

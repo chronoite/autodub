@@ -33,6 +33,7 @@ test = ["numpy>=1.26"]
 
 [project.urls]
 Homepage = "https://github.com/chronoite/autodub"
+Repository = "https://github.com/chronoite/autodub"
 Documentation = "https://github.com/chronoite/autodub/tree/main/docs"
 Issues = "https://github.com/chronoite/autodub/issues"
 

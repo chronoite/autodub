@@ -1,4 +1,4 @@
-"""DubProjects: the series-level view.
+"""series view: the series-level view.
 
 Episodes of one show are analyzed as separate jobs, but a character should be named once for the
 whole show. The voice bank is already per-series; this module is the surface that treats a season
@@ -50,8 +50,7 @@ def _job_series(job: dict[str, Any]) -> str:
 
 
 def _iter_jobs() -> list[dict[str, Any]]:
-    from .state import WORK_ROOT
-    import json
+    from .config import WORK_ROOT
     jobs = []
     root = WORK_ROOT / "jobs"
     if not root.exists():
@@ -65,7 +64,7 @@ def _iter_jobs() -> list[dict[str, Any]]:
 
 
 def list_projects() -> dict[str, Any]:
-    """Every series with its member episodes — the DubProjects landing list."""
+    """Every series with its member episodes — the series view landing list."""
     groups: dict[str, dict[str, Any]] = {}
     for job in _iter_jobs():
         name = _job_series(job)

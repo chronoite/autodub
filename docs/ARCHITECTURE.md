@@ -4,8 +4,8 @@
 
 | Goal | Consequence in the design |
 |---|---|
-| Fully local and private | No runtime network access: workers run with Hugging Face offline flags, downloaders are stubbed out to raise, models come from pinned local paths. The server binds loopback only. |
-| Human judgment on anything subjective | The pipeline stops at a review state after analysis. Automatic matchers only *propose*; recorded reviewer answers are the only thing that changes speaker identity. |
+| Fully local and private | No runtime network access: workers run with offline flags forced, and where a library would still try to download (ModelScope) the downloader is replaced with one that raises; models come from pinned local paths. The server binds loopback only. |
+| Human judgment on anything subjective | The pipeline stops at a review state after analysis. Automatic matchers only *propose*, except near-certain voice-bank matches, which are applied and logged; everything else changes only through recorded reviewer answers. |
 | Heavy, conflicting ML dependencies | Each model family runs in its own interpreter and virtual environment as a short-lived worker process. The orchestrator itself has zero third-party dependencies. |
 | Long jobs on consumer hardware | Every job is resumable, cancellable and persisted atomically; GPU work is explicitly armed, exclusively leased, and guarded by temperature. |
 | Evolving model choices | Models sit behind worker commands and quality profiles; experiments compare one component at a time before anything becomes a default. |
@@ -52,8 +52,8 @@ import ─► analyze ─► review ─► (adapt) ─► render ─► complete
 Each job is a directory `$AUTODUB_HOME/work/jobs/<opaque-id>/` holding `job.json`, the copied
 source, and stage artifacts (`artifacts/lines`, `aligned`, `separation`, `voice-references`, …).
 
-- **Opaque IDs.** Jobs are named `dub-<timestamp>-<random>`. The original filename is kept only as
-  a display hint and is never logged or returned by the API; public job views strip host paths,
+- **Opaque IDs.** Jobs are named `dub-<timestamp>-<random>`. The original basename is kept server-side for
+  series grouping and export names; it is never logged or returned by the API; public job views strip host paths,
   tracebacks, and raw voice embeddings.
 - **Atomic state.** `save_job` writes to a temp file, fsyncs, and `os.replace`s it into place, with a
   short retry because Windows refuses a rename while any reader holds the file open. A per-job lock

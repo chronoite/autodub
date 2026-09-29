@@ -23,11 +23,6 @@ def _env_path(name: str, default: Path) -> Path:
     return Path(value).expanduser() if value else default
 
 
-def _env_python(name: str, default: Path) -> Path:
-    """Interpreter for one worker environment. Unset means "use the interpreter running AutoDub"."""
-    return _env_path(name, default)
-
-
 # ---- locations -------------------------------------------------------------------------------
 PACKAGE_ROOT = Path(__file__).resolve().parent
 PROJECT_ROOT = PACKAGE_ROOT.parents[1]            # repository root (src/autodub -> repo)
@@ -37,7 +32,6 @@ _BASE = PROJECT_ROOT if (PROJECT_ROOT / "pyproject.toml").is_file() else Path.ho
 STATIC_ROOT = PACKAGE_ROOT / "web" / "static"
 
 DATA_ROOT = _env_path("AUTODUB_HOME", _BASE / "data")
-INPUT_ROOT = DATA_ROOT / "input"
 WORK_ROOT = DATA_ROOT / "work"
 OUTPUT_ROOT = DATA_ROOT / "out"
 VOICES_ROOT = DATA_ROOT / "voices"
@@ -58,12 +52,13 @@ COSYVOICE3 = MODELS_ROOT / "tts" / "cosyvoice3"
 AUTODUB_MODEL_CACHE = MODELS_ROOT / "cache"
 
 # ---- worker interpreters (each model family can live in its own virtualenv) ------------------
+# MEDIA defaults to the interpreter running AutoDub; every other worker defaults to MEDIA.
 _SELF = Path(sys.executable)
-MEDIA_PYTHON = _env_python("AUTODUB_PYTHON_MEDIA", _SELF)
-QUALITY_PYTHON = _env_python("AUTODUB_PYTHON_QUALITY", MEDIA_PYTHON)
-ANALYSIS_PYTHON = _env_python("AUTODUB_PYTHON_ANALYSIS", MEDIA_PYTHON)
-CHATTERBOX_PYTHON = _env_python("AUTODUB_PYTHON_CHATTERBOX", MEDIA_PYTHON)
-COSYVOICE_PYTHON = _env_python("AUTODUB_PYTHON_COSYVOICE", MEDIA_PYTHON)
+MEDIA_PYTHON = _env_path("AUTODUB_PYTHON_MEDIA", _SELF)
+QUALITY_PYTHON = _env_path("AUTODUB_PYTHON_QUALITY", MEDIA_PYTHON)
+ANALYSIS_PYTHON = _env_path("AUTODUB_PYTHON_ANALYSIS", MEDIA_PYTHON)
+CHATTERBOX_PYTHON = _env_path("AUTODUB_PYTHON_CHATTERBOX", MEDIA_PYTHON)
+COSYVOICE_PYTHON = _env_path("AUTODUB_PYTHON_COSYVOICE", MEDIA_PYTHON)
 COSYVOICE_SOURCE = _env_path("AUTODUB_COSYVOICE_SOURCE", _BASE / "third_party" / "CosyVoice")
 _extra_site = os.environ.get("AUTODUB_COSYVOICE_EXTRA_SITE", "").strip()
 COSYVOICE_EXTRA_SITE = Path(_extra_site).expanduser() if _extra_site else None
@@ -113,7 +108,6 @@ GROUP_RED_MIN_SOLO_S = 1.5
 
 # ---- evidence cards ----------------------------------------------------------------------------
 EVIDENCE_CARD_CLIPS = 3
-EVIDENCE_CARD_CLIP_PAD_S = 0.15
 EVIDENCE_CARD_MIN_CLIP_S = 1.2
 EVIDENCE_CARD_MAX_CLIP_S = 8.0
 # Click-to-play clips: short segments are expanded around their midpoint so one-liners still show
@@ -183,7 +177,7 @@ QUEUE_MAX_PENDING_TAILS = 1
 
 
 def ensure_layout() -> None:
-    for path in (INPUT_ROOT, WORK_ROOT, OUTPUT_ROOT, VOICES_ROOT):
+    for path in (WORK_ROOT, OUTPUT_ROOT, VOICES_ROOT):
         path.mkdir(parents=True, exist_ok=True)
 
 

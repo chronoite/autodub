@@ -10,7 +10,15 @@ from contextvars import ContextVar
 from pathlib import Path
 
 from . import oplog
-from .config import ANALYSIS_PYTHON, GPT_SOVITS_URL, MEDIA_PYTHON, PACKAGE_ROOT, QUALITY_PYTHON, runtime_env
+from .config import (
+    ANALYSIS_PYTHON,
+    GPT_SOVITS_URL,
+    MEDIA_PYTHON,
+    PACKAGE_ROOT,
+    QUALITY_PYTHON,
+    TTS_BATCH_SORT,
+    runtime_env,
+)
 from .media import StageError
 from .speaker_evidence import normalize_speaker_count
 from .voice_profiles import list_profiles, load_profile
@@ -130,6 +138,7 @@ def synthesize_quality_batch(
     if int(batch_size) > 1:
         # a missing key = old worker behavior (backward/forward compatible)
         payload["batch_size"] = int(batch_size)
+        payload["batch_sort"] = bool(TTS_BATCH_SORT)
     if cancel_file is not None:
         payload["cancel_file"] = str(cancel_file)
     result = run_quality_worker("synthesize", payload, tts=True, timeout=10800)

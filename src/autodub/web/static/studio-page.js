@@ -1,4 +1,4 @@
-/* Casting Studio v2 — its own page, staged workflow:
+/* Casting studio — its own page, staged workflow:
    step 1 clean groups (every clip, isolated audio, EN caption, reassign) ->
    step 2 merge & name (compare drawer, simultaneous-speech verdict) ->
    step 3 voices (demos) -> step 4 lock. Draft names/voices + checklist persist

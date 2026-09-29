@@ -1,5 +1,5 @@
 const $ = (q) => document.querySelector(q);
-const BASE = location.pathname.startsWith('/autodub') ? '/autodub' : '';
+const BASE = '';
 let current = null;
 let poller = null;
 let profiles = [];
@@ -530,8 +530,7 @@ async function buildExperiment() {
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
         start:Number($('#experiment-start').value),
-        duration:Number($('#experiment-duration').value),
-        line_set:$('#experiment-lines').value
+        duration:Number($('#experiment-duration').value)
       })
     });
     $('#experiment-state').textContent = `Comparison ${run.id} complete. Judge it in Experiment review (/experiments.html?run=${run.id}).`;
@@ -788,7 +787,7 @@ $('#timing-policy').onchange = () => {
   $('#tempo').value = policy.max_tempo;
   $('#tempo-value').textContent = `${Number(policy.max_tempo).toFixed(2)}×`;
 };
-// ---- DUBPROJECTS: the whole show as one system -----------------------------------------
+// ---- SERIES VIEW: the whole show as one system -----------------------------------------
 // Speakers merge across every analyzed
 // episode; likely characters are grouped; one answer maps every member episode at once.
 // The per-episode Characters panel stays - this is a grouped LAYER on top, not a swap.
@@ -801,7 +800,7 @@ async function refreshProjects() {
 
 // EVIDENCE PREWARM: first-click ffmpeg cuts made review slow, so the server cuts every
 // card's media ahead of the reviewer on EVERY evidence
-// surface — the DubProjects board and the per-episode Characters panel. Auto-fires when a
+// surface — the series view board and the per-episode Characters panel. Auto-fires when a
 // surface opens; the visible button re-runs it on demand (cached files skip instantly).
 const prewarmTimers = {};
 

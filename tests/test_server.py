@@ -30,12 +30,14 @@ class LoopbackServerTests(unittest.TestCase):
     def test_public_job_never_exposes_traceback_or_source_filename(self) -> None:
         job = default_job("dub-20260717-redaction", ".mp4", 1, "0" * 64)
         job["error"] = "short user-facing error"
+        job["source"]["original_name"] = "private-original-name.mkv"
         job["error_detail"] = "Traceback: C:\\private\\host-path-marker"
         public = public_job(job)
         encoded = json.dumps(public)
         self.assertNotIn("error_detail", public)
         self.assertNotIn("host-path-marker", encoded)
         self.assertNotIn("source.mp4", encoded)
+        self.assertNotIn("private-original-name", encoded)
         self.assertEqual(public["error"], "short user-facing error")
 
     def test_refuses_lan_bind(self) -> None:

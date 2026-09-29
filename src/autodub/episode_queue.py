@@ -9,7 +9,6 @@ import json
 import os
 import tempfile
 import time
-from pathlib import Path
 
 from . import config, oplog, thermal
 from .config import WORK_ROOT

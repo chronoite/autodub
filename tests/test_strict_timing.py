@@ -15,7 +15,7 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from autodub.config import WORK_ROOT  # noqa: E402
 
-from autodub.media import align_line, trim_edge_silence, wav_duration
+from autodub.media import align_line, trim_edge_silence
 from autodub.pipeline import _next_rendered_starts
 from autodub.policies import get_timing_policy
 from autodub.workflow import audit_timing

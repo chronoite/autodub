@@ -11,13 +11,8 @@ import argparse
 import copy
 import json
 import os
-import socket
-import subprocess
-import sys
 import tempfile
-import time
 import urllib.request
-from contextlib import contextmanager
 from pathlib import Path
 
 

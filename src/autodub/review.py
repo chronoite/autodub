@@ -190,7 +190,7 @@ def rendered_preview(job_id: str, index: int) -> Path:
     job = load_job(job_id)
     _segment(job, index)
     artifacts = job_dir(job_id) / "artifacts"
-    for folder in ("previews", "aligned", "lines-v3", "lines"):
+    for folder in ("previews", "aligned", "lines"):
         candidate = artifacts / folder / f"line-{index:05d}.wav"
         if candidate.is_file():
             return candidate

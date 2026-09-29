@@ -8,12 +8,10 @@ files, and stays bit-equivalent in shape to the single-pass mix.
 """
 from __future__ import annotations
 
-import struct
 import subprocess
 import sys
 import tempfile
 import unittest
-import wave
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]

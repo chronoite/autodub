@@ -2,7 +2,7 @@
 
 Every evidence frame/audio/video is already cut-once-then-cached on disk by ``review.py``;
 the wait a reviewer feels is the FIRST cut on click. This module walks a surface's cards in
-the order the reviewer meets them and cuts ahead on a daemon thread — for the DubProjects
+the order the reviewer meets them and cuts ahead on a daemon thread — for the series view
 series board AND the per-episode Characters panel. It creates no new media paths: it
 calls the same lazy functions the endpoints use, so the cache layout stays
 single-sourced.
@@ -97,7 +97,7 @@ def _begin(key: str) -> dict[str, Any] | None:
 
 
 def start(slug: str) -> dict[str, Any]:
-    """Warm the whole DubProjects board for a series."""
+    """Warm the whole series view board for a series."""
     key = f"series:{slug}"
     running = _begin(key)
     if running is not None:

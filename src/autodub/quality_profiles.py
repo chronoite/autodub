@@ -17,7 +17,7 @@ PROFILES = {
         "quality_tier": "primary",
         "requires_gpu": True,
         "asr": "faster-whisper-large-v3-cuda-fp16",
-        "alignment": "whisper-word-timestamps-v1",
+        "alignment": "whisperx-wav2vec2-ja-v1",
         "diarization": "pyannote-community-1-exclusive",
         "separation": "demucs-htdemucs-ft",
         "translation": "marian-ja-en-reviewed-baseline",

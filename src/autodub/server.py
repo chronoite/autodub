@@ -10,7 +10,7 @@ from urllib.parse import parse_qs, urlparse
 
 import traceback
 
-from . import oplog
+from . import __version__, oplog
 from .config import ALLOWED_SUFFIXES, HOST, MAX_UPLOAD_BYTES, OUTPUT_ROOT, PORT, STATIC_ROOT, ensure_layout
 from .gpu_session import GpuSafetyError, arm, consume_arm, preflight_status
 from .experiment_store import (
@@ -84,7 +84,7 @@ def _launch(job_id: str, target) -> bool:
 
 
 class AutoDubHandler(BaseHTTPRequestHandler):
-    server_version = "AutoDubLocal/0.2"
+    server_version = f"AutoDub/{__version__}"
 
     def log_message(self, fmt: str, *args) -> None:
         # Never log requested URLs or source metadata. Only method/status is operationally useful.
@@ -204,7 +204,7 @@ class AutoDubHandler(BaseHTTPRequestHandler):
                 series_q = str((parse_qs(parsed.query).get("series") or [""])[0]) or None
                 self._json(characters.characters_view(parts[2], series_q))
             elif parsed.path == "/api/projects":
-                # DUBPROJECTS: the show -> seasons -> episodes tree.
+                # Series view: the show -> seasons -> episodes tree.
                 self._json(series.list_projects())
             elif len(parts) == 4 and parts[:2] == ["api", "projects"] and parts[3] == "characters":
                 self._json(series.series_characters(parts[2]))
@@ -700,7 +700,7 @@ class AutoDubHandler(BaseHTTPRequestHandler):
             root.rmdir()
             raise ValueError("source transfer ended early")
         job = default_job(job_id, suffix, written, digest)
-        # ORIGINAL NAME: the upload is stored as source<ext>, which erased the
+        # Original name: the upload is stored as source<ext>, which erased the
         # real filename - and the Characters panel guesses the SERIES from it. Additive field;
         # basename only, display/guess use only (never a path).
         original = Path(str((query.get("name") or [""])[0])).name[:200]

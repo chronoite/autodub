@@ -186,6 +186,8 @@ def public_job(job: dict[str, Any]) -> dict[str, Any]:
     """Return UI-safe state without host paths or source filenames."""
     copy = json.loads(json.dumps(job))
     copy.get("source", {}).pop("file", None)
+    # The original basename is kept server-side for series grouping and export names only.
+    copy.get("source", {}).pop("original_name", None)
     # Full tracebacks are deliberately persisted in job.json for local diagnosis, but are
     # never part of the HTTP API contract. They may contain host paths or library
     # internals even though request bodies and media names are not logged.

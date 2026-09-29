@@ -66,7 +66,7 @@
       </div>
       <div id="job-view" class="job-view hidden">
         <section class="job-head panel">
-          <div><p class="eyebrow">OPAQUE PROJECT</p><h2 id="job-title"></h2><p id="job-meta" class="muted"></p></div>
+          <div><p class="eyebrow">JOB</p><h2 id="job-title"></h2><p id="job-meta" class="muted"></p></div>
           <div class="actions"><button id="save" class="secondary">Save edits</button><button id="analyze" class="primary">Analyze locally</button><button id="render" class="primary accent">Render English dub</button><button id="realign" class="secondary">Realign + remix</button><button id="adapt" class="secondary" title="Slot-aware dialogue adaptation: rewrite English lines to fit their speech windows (meaning-locked)">Adapt dialogue</button><button id="open-studio" class="secondary" title="Merge duplicate voices, name characters, audition demos, and lock the cast">Casting studio</button><button id="cancel-job" class="danger hidden">Cancel safely</button><a id="download" class="button primary success hidden">Export MP4</a><a id="srt" class="button secondary hidden">Export SRT</a><button id="delete-job" class="danger" title="Delete this job and its outputs (the series voice bank is kept)">Delete job</button></div>
         </section>
         <section class="progress-panel panel">
@@ -127,7 +127,6 @@
           <div class="experiment-controls">
             <label>Start seconds<input id="experiment-start" type="number" min="0" step="0.1" value="0"></label>
             <label>Duration<input id="experiment-duration" type="number" min="5" max="120" step="1" value="45"></label>
-            <label>Rendered line set<select id="experiment-lines"><option value="lines">Current job lines</option><option value="lines-v3">Preserved v3 lines</option></select></label>
             <button id="build-experiment" class="primary accent">Build comparison</button>
           </div>
           <small id="experiment-state" class="muted">Six candidates vary one timing, balance, or room-glue dimension at a time; no winner is automatic.</small>

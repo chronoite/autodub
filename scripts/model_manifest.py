@@ -19,7 +19,7 @@ MODELS: dict[str, dict] = {
         "kind": "hf",
         "group": "core",
         "repo_id": "Systran/faster-whisper-large-v3",
-        "revision": None,  # set to a commit hash to pin; None downloads the current main
+        "revision": "edaa852ec7e145841d8ffdb056a99866b5f0a478",
         "destination": config.WHISPER_MODEL,
         "license": "MIT",
         "purpose": "speech recognition (CTranslate2 conversion of OpenAI Whisper large-v3)",
