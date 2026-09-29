@@ -67,7 +67,7 @@
       <div id="job-view" class="job-view hidden">
         <section class="job-head panel">
           <div><p class="eyebrow">OPAQUE PROJECT</p><h2 id="job-title"></h2><p id="job-meta" class="muted"></p></div>
-          <div class="actions"><button id="save" class="secondary">Save edits</button><button id="analyze" class="primary">Analyze locally</button><button id="render" class="primary accent">Render English dub</button><button id="realign" class="secondary">Realign + remix</button><button id="adapt" class="secondary" title="Slot-aware dialogue adaptation: rewrite English lines to fit their speech windows (meaning-locked)">Adapt dialogue</button><button id="open-studio" class="secondary" title="Merge duplicate voices, name characters, audition demos, and lock the cast">Casting studio</button><button id="cancel-job" class="danger hidden">Cancel safely</button><a id="download" class="button primary success hidden">Export MP4</a><a id="srt" class="button secondary hidden">Export SRT</a><button id="delete-job" class="danger" title="Delete this job and its outputs (sources in input/ and the voice bank are kept)">Delete job</button></div>
+          <div class="actions"><button id="save" class="secondary">Save edits</button><button id="analyze" class="primary">Analyze locally</button><button id="render" class="primary accent">Render English dub</button><button id="realign" class="secondary">Realign + remix</button><button id="adapt" class="secondary" title="Slot-aware dialogue adaptation: rewrite English lines to fit their speech windows (meaning-locked)">Adapt dialogue</button><button id="open-studio" class="secondary" title="Merge duplicate voices, name characters, audition demos, and lock the cast">Casting studio</button><button id="cancel-job" class="danger hidden">Cancel safely</button><a id="download" class="button primary success hidden">Export MP4</a><a id="srt" class="button secondary hidden">Export SRT</a><button id="delete-job" class="danger" title="Delete this job and its outputs (the series voice bank is kept)">Delete job</button></div>
         </section>
         <section class="progress-panel panel">
           <div class="progress-copy"><span id="stage">Ready</span><span id="percent">0%</span></div>
@@ -154,41 +154,7 @@
         <section class="panel event-panel"><div class="panel-title"><h3>Job history</h3><span>Metadata only</span></div><div id="events"></div></section>
       </div>
     </section>
-    <section id="casting-studio" class="panel hidden">
-      <div class="panel-title">
-        <div><h3>Casting studio</h3><p class="muted">Merge duplicate voices, name each character, audition demos, then lock the cast.</p></div>
-        <div class="studio-controls">
-          <label class="muted"><input type="checkbox" id="studio-official-audio"> official-EN audio in clips</label>
-          <input id="studio-series" placeholder="Series name (voice bank)">
-          <select id="studio-sort" class="mini" title="Row order">
-            <option value="clusters">Sort: likely-same together</option>
-            <option value="lines">Sort: most lines</option>
-            <option value="label">Sort: label order</option>
-          </select>
-          <button id="studio-prerender" class="secondary" title="One GPU arm renders every candidate demo before you sit down">Render demos</button>
-          <button id="studio-close" class="mini">Close</button>
-        </div>
-      </div>
-      <datalist id="studio-names"></datalist>
-      <div id="studio-rows"></div>
-      <div id="studio-spotcheck" class="hidden"></div>
-      <div class="studio-lock-bar">
-        <span id="studio-lock-state" class="muted"></span>
-        <div>
-          <button id="studio-spotcheck-open" class="secondary" title="Review only the lines the machine is unsure about; skipping is fine">Spot-check flagged lines</button>
-          <button id="studio-lock" class="primary accent" disabled>Cast lock</button>
-        </div>
-      </div>
-    </section>
   </main>
-  <div id="video-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="video-title">
-    <div class="modal-card video-modal">
-      <div class="video-head"><h3 id="video-title">Clip</h3>
-        <span class="video-head-actions"><button id="video-longer" class="secondary" title="Re-cut this moment with more surrounding conversation">Longer clip</button><button id="video-episode" class="secondary" title="Open the whole episode here, parked just before this line — scrub freely">Watch in episode</button><button id="video-close" class="secondary" title="Close (Esc)">✕</button></span></div>
-      <video id="video-player" controls autoplay playsinline></video>
-      <small id="video-note" class="muted">first open cuts the clip — a few seconds…</small>
-    </div>
-  </div>
   <div id="confirm-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
     <div class="modal-card">
       <h3 id="confirm-title">Confirm</h3>

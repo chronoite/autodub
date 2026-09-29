@@ -11,13 +11,19 @@ let songMarkAnchor = null;
 
 async function api(path, options = {}) {
   const response = await fetch(BASE + path, options);
-  const data = await response.json();
+  const data = await response.json().catch(() => ({}));
   if (!response.ok) throw new Error(data.error || `Request failed (${response.status})`);
   return data;
 }
 
 function esc(value) {
   return String(value ?? '').replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]));
+}
+
+// The CSP forbids inline style attributes, so bar widths travel as data-width and are applied
+// through the CSSOM after rendering.
+function applyWidths(root) {
+  root.querySelectorAll('[data-width]').forEach(node => { node.style.width = `${node.dataset.width}%`; });
 }
 
 // ---- SIDEBAR -------------------------------------------------------------------------
@@ -80,11 +86,12 @@ function renderLibrary() {
         <b>${esc(project.series)}</b>
         <small>${project.episodes.length} ep · ${stats.review.length} to review · ${project.bank_characters} named</small>
       </button>
-      ${runningJob ? `<div class="show-progress"><div style="width:${runningJob.progress}%"></div></div>
+      ${runningJob ? `<div class="show-progress"><div data-width="${Number(runningJob.progress) || 0}"></div></div>
         <small class="show-run">${esc(runningEp.episode)} · ${esc(runningJob.stage)} ${runningJob.progress}%</small>` : ''}
       <div class="chip-strip">${seasons}</div>
     </div>`;
   }).join('') : '<div class="empty-small">Nothing imported yet</div>';
+  applyWidths($('#projects'));
   document.querySelectorAll('.show-head').forEach(button => button.onclick = () => openProject(button.dataset.slug));
   document.querySelectorAll('.ep-pill').forEach(button => button.onclick = () => loadJob(button.dataset.job));
 }
@@ -108,7 +115,7 @@ function renderActivity() {
     section('RUNNING', 'amber', running.map(job => `
       <button class="activity-row" data-job="${job.id}">
         <div class="activity-top"><b>${esc(label(job.id))}</b><span class="amber">${esc(job.stage)} ${job.progress}%</span></div>
-        <div class="activity-bar"><div style="width:${job.progress}%"></div></div>
+        <div class="activity-bar"><div data-width="${Number(job.progress) || 0}"></div></div>
       </button>`)) +
     section('WAITING ON YOU', 'green', review.map(job => `
       <button class="activity-row" data-job="${job.id}">
@@ -128,6 +135,7 @@ function renderActivity() {
       </button>`))
   ) || '<div class="empty-small">Nothing running, nothing waiting.</div>';
   document.querySelectorAll('.activity-row[data-job]').forEach(button => button.onclick = () => loadJob(button.dataset.job));
+  applyWidths($('#activity-list'));
 }
 
 function setSidebarTab(tab) {
@@ -312,10 +320,10 @@ function renderSegments() {
   const songActive = (current.settings.song_policy || 'dub-all-v1') === 'skip-detected-v1';
   const songCount = songActive ? current.segments.filter(s => s.song_skip).length : 0;
   const songBanner = songCount
-    ? `<div class="qc-flags" style="margin:6px 0"><span class="qc-flag" style="background:#7c3aed;color:#fff">SONG SKIP (EXPERIMENTAL): ${songCount} line(s) will NOT be dubbed - review them below</span></div>` : '';
+    ? `<div class="qc-flags song-banner"><span class="qc-flag song">SONG SKIP (EXPERIMENTAL): ${songCount} line(s) will NOT be dubbed - review them below</span></div>` : '';
   const songMark = s => songActive && s.song_skip;
   $('#segments').innerHTML = current.segments.length ? songBanner + current.segments.map(segment => `
-    <div class="segment" data-i="${segment.i}" ${songMark(segment) ? 'style="outline:2px solid #7c3aed;border-radius:6px"' : ''}>
+    <div class="segment${songMark(segment) ? ' song-outline' : ''}" data-i="${segment.i}">
       <div class="time">${fmtTime(segment.start)}<br>${fmtTime(segment.end)}</div>
       <input class="speaker" value="${esc(segment.speaker)}" aria-label="Speaker">
       <textarea class="source" readonly aria-label="Source transcript">${esc(segment.text)}</textarea>
@@ -326,7 +334,7 @@ function renderSegments() {
         <button class="mini" data-preview="${segment.i}">Preview</button>
         <button class="mini" data-repair="${segment.i}">Repair</button>
       </div>
-      ${songMark(segment) ? `<div class="qc-flags"><span class="qc-flag" style="background:#7c3aed;color:#fff" title="Detected song - will not be dubbed; original audio kept">SONG - skipped (${esc(segment.song_reason || 'detected')})</span></div>` : ''}
+      ${songMark(segment) ? `<div class="qc-flags"><span class="qc-flag song" title="Detected song - will not be dubbed; original audio kept">SONG - skipped (${esc(segment.song_reason || 'detected')})</span></div>` : ''}
       ${segment.delivery ? `<div class="delivery-hint" title="Relative source-energy hint; human review required">${esc(segment.delivery.label)} · ${Math.round(Number(segment.delivery.confidence || 0) * 100)}%</div>` : ''}
       ${segment.adapt?.engine ? `<div class="delivery-hint" title="Dialogue adaptation: the pre-adaptation line is preserved; re-runs re-derive from it">adapted · ${esc(segment.adapt.engine)}</div>` : ''}
       ${(segment.qc?.flags || []).length ? `<div class="qc-flags">${segment.qc.flags.map(flag => `<span class="qc-flag">${esc(flag)}</span>`).join('')}</div>` : ''}

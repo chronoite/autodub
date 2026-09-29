@@ -277,22 +277,25 @@ class StageThreeSourceContracts(unittest.TestCase):
 
 
 class StudioFrontendContracts(unittest.TestCase):
+    STATIC = ROOT / "src" / "autodub" / "web" / "static"
+
     def test_studio_screen_is_wired(self) -> None:
-        index = (ROOT / "src" / "autodub" / "web" / "static" / "index.html").read_text(encoding="utf-8")
-        for token in ('id="casting-studio"', 'id="open-studio"', 'id="studio-rows"',
-                      'id="studio-lock"', 'id="studio-spotcheck-open"',
-                      'src="studio.js"', 'id="studio-names"'):
-            self.assertIn(token, index)
-        studio = (ROOT / "src" / "autodub" / "web" / "static" / "studio.js").read_text(encoding="utf-8")
-        for token in ("apply-cast", "speakers/merge", "demos/prerender",
-                      "attribution-flags", "evidence-frame", "evidence-video",
-                      "qwen-auto-xv:", "Not sure"):
-            self.assertIn(token, studio)
-        # merge chips are never pre-checked; NOT SURE keeps the split
-        self.assertIn("never merge on hesitation", studio)
-        styles = (ROOT / "src" / "autodub" / "web" / "static" / "styles.css").read_text(encoding="utf-8")
-        self.assertIn(".studio-body", styles)
-        self.assertIn("@media (max-width: 760px){.studio-body", styles)
+        index = (self.STATIC / "index.html").read_text(encoding="utf-8")
+        self.assertIn('id="open-studio"', index)
+        self.assertIn('src="studio.js"', index)
+        page = (self.STATIC / "studio-page.js").read_text(encoding="utf-8")
+        for token in ("apply-cast", "speakers/merge", "reject-merge", "demos/prerender",
+                      "evidence-frame", "evidence-video", "qwen-auto-xv:"):
+            self.assertIn(token, page)
+        # "Not sure" never merges: it is its own verdict next to Same / Different
+        self.assertIn("Not sure", (self.STATIC / "studio.html").read_text(encoding="utf-8"))
+
+    def test_no_inline_style_attributes(self) -> None:
+        # The server's CSP (style-src 'self') ignores style="..." attributes, so pages must use
+        # classes or CSSOM writes instead.
+        for path in sorted(self.STATIC.iterdir()):
+            if path.suffix in {".html", ".js"}:
+                self.assertNotIn('style="', path.read_text(encoding="utf-8"), path.name)
 
 
 class CodeShaTests(unittest.TestCase):

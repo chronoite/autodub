@@ -177,13 +177,13 @@ function voiceOptions(label) {
 }
 
 function statusOf(label) {
-  if (isMuted(label)) return {dot: 'var(--faint)', text: 'muted'};
+  if (isMuted(label)) return {dot: 'faint', text: 'muted'};
   const named = (cast[label]?.character || '').trim();
   const inPair = openPairs().some(pair =>
     String(pair.speaker_a) === label || String(pair.speaker_b) === label);
-  if (named && !inPair) return {dot: 'var(--ok)', text: 'cast'};
-  if (inPair) return {dot: 'var(--warn)', text: 'reviewing'};
-  return {dot: 'var(--faint)', text: 'unnamed'};
+  if (named && !inPair) return {dot: 'ok', text: 'cast'};
+  if (inPair) return {dot: 'warn', text: 'reviewing'};
+  return {dot: 'faint', text: 'unnamed'};
 }
 
 /* ---------- shared line audio ---------- */
@@ -278,9 +278,9 @@ function groupCard(label, lines) {
       <span class="only-2 matches">${matchChips(label)}</span>
       <input class="name-input only-2 ${(cast[label].character || '').trim() ? 'named' : ''}" list="cast-names"
              data-name="${esc(label)}" value="${esc(cast[label].character)}" placeholder="Character name">
-      <span class="only-3" style="font-weight:600">${esc((cast[label].character || '').trim() || '(unnamed)')}</span>
+      <span class="only-3 fw-600">${esc((cast[label].character || '').trim() || '(unnamed)')}</span>
       <span class="spacer"></span>
-      <span class="status-cell" data-status="${esc(label)}"><span class="status-dot" style="background:${status.dot}"></span>${status.text}</span>
+      <span class="status-cell" data-status="${esc(label)}"><span class="status-dot dot-${status.dot}"></span>${status.text}</span>
     </div>
     <div class="voice-cell only-3">${voiceCell(label, muted)}</div>
     <div class="only-1">${clipStrip(label)}</div>`;
@@ -295,7 +295,7 @@ function matchChips(label) {
       const key = pairKeyOf(pair);
       const isOpen = compare && compare.key === key;
       return `<button class="match-chip ${isOpen ? 'open' : ''}" data-pair="${esc(key)}">${isOpen ? 'comparing ↓' : `${esc(other)} · ${Number(pair.cosine_similarity).toFixed(2).slice(1)}`}</button>`;
-    }).join('') || '<span class="faint" style="font-size:12px">no matches</span>';
+    }).join('') || '<span class="faint small">no matches</span>';
 }
 
 function voiceCell(label, muted) {
@@ -505,11 +505,16 @@ function renderTimeline(pair) {
   const duration = Math.max(...(job.segments || []).map(s => Number(s.end) || 0), 1);
   const lanes = ['a', 'b'].map((side, laneIndex) => {
     const segs = dialogueSegments(pair[side]).map(s =>
-      `<span class="tl-seg" style="left:${100 * s.start / duration}%;width:${Math.max(0.15, 100 * (s.end - s.start) / duration)}%"></span>`).join('');
+      `<span class="tl-seg" data-left="${100 * s.start / duration}" data-width="${Math.max(0.15, 100 * (s.end - s.start) / duration)}"></span>`).join('');
     return `<div class="tl-lane ${laneIndex === 0 ? 'first' : ''}"><span class="mono">${esc(pair[side])}</span><div class="tl-bar">${segs}</div></div>`;
   }).join('');
   $('#tl-lanes').innerHTML = lanes +
     `<div class="tl-scale"><span>0:00</span><span>${fmtTime(duration / 2)}</span><span>${fmtTime(duration)}</span></div>`;
+  // The CSP forbids inline style attributes; geometry is applied through the CSSOM instead.
+  document.querySelectorAll('#tl-lanes .tl-seg').forEach(seg => {
+    seg.style.left = `${seg.dataset.left}%`;
+    seg.style.width = `${seg.dataset.width}%`;
+  });
   // Honest verdict: the segment timeline is EXCLUSIVE by
   // construction, so "segments never overlap" is true of every pair and proves
   // nothing. The raw diarizer's simultaneous-speech measurement rides each
@@ -767,7 +772,7 @@ function bindRows() {
     input.classList.toggle('named', Boolean(input.value.trim()));
     const status = statusOf(label);
     const cell = document.querySelector(`[data-status="${CSS.escape(label)}"]`);
-    if (cell) cell.innerHTML = `<span class="status-dot" style="background:${status.dot}"></span>${status.text}`;
+    if (cell) cell.innerHTML = `<span class="status-dot dot-${status.dot}"></span>${status.text}`;
     updateBadges();
     saveProgress();
   });

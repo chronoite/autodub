@@ -90,8 +90,8 @@ class StudioPageSourceContract(unittest.TestCase):
         self.assertIn("simultaneous_speech_longest_run_ms", js)
 
     def test_job_page_button_navigates_to_the_page(self) -> None:
-        v1 = (ROOT / "src" / "autodub" / "web" / "static" / "studio.js").read_text(encoding="utf-8")
-        self.assertIn("studio.html?job=", v1)
+        entry = (ROOT / "src" / "autodub" / "web" / "static" / "studio.js").read_text(encoding="utf-8")
+        self.assertIn("studio.html?job=", entry)
 
     def test_no_webfonts(self) -> None:
         # the app works fully offline: pages must never fetch web fonts

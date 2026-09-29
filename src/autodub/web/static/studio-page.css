@@ -162,3 +162,10 @@ body[data-step="4"] .only-1,body[data-step="4"] .only-2,body[data-step="4"] .onl
   #series{width:120px;flex-shrink:1}
   .step-tab{padding:5px 8px;font-size:12px}
 }
+
+/* status dots and small text helpers (no inline styles: the CSP blocks them) */
+.status-dot.dot-ok{background:var(--ok)}
+.status-dot.dot-warn{background:var(--warn)}
+.status-dot.dot-faint{background:var(--faint)}
+.fw-600{font-weight:600}
+.small{font-size:12px}
