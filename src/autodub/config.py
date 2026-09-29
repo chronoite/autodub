@@ -1,7 +1,8 @@
 """Runtime configuration.
 
 Every path and external endpoint is resolved from environment variables so AutoDub runs from any
-checkout without editing code. Defaults assume a self-contained layout next to the repository::
+checkout without editing code. Defaults assume a self-contained layout next to the repository
+(or ``~/.autodub`` when AutoDub is installed as a package)::
 
     <repo>/data/      jobs, uploads, outputs, voice references, logs   (AUTODUB_HOME)
     <repo>/models/    model weights, fetched by scripts/                 (AUTODUB_MODELS_DIR)
@@ -30,18 +31,21 @@ def _env_python(name: str, default: Path) -> Path:
 # ---- locations -------------------------------------------------------------------------------
 PACKAGE_ROOT = Path(__file__).resolve().parent
 PROJECT_ROOT = PACKAGE_ROOT.parents[1]            # repository root (src/autodub -> repo)
+# Running from a checkout keeps data and models beside the repository; an installed package
+# (no pyproject.toml above it) defaults to a per-user folder instead of site-packages.
+_BASE = PROJECT_ROOT if (PROJECT_ROOT / "pyproject.toml").is_file() else Path.home() / ".autodub"
 STATIC_ROOT = PACKAGE_ROOT / "web" / "static"
 
-DATA_ROOT = _env_path("AUTODUB_HOME", PROJECT_ROOT / "data")
+DATA_ROOT = _env_path("AUTODUB_HOME", _BASE / "data")
 INPUT_ROOT = DATA_ROOT / "input"
 WORK_ROOT = DATA_ROOT / "work"
 OUTPUT_ROOT = DATA_ROOT / "out"
 VOICES_ROOT = DATA_ROOT / "voices"
 # Optional extra site-packages prepended for CPU workers (pure-Python packages installed with
 # ``pip install --target``); ignored when the directory does not exist.
-RUNTIME_DEPS = _env_path("AUTODUB_RUNTIME_DEPS", PROJECT_ROOT / "runtime_deps")
+RUNTIME_DEPS = _env_path("AUTODUB_RUNTIME_DEPS", _BASE / "runtime_deps")
 
-MODELS_ROOT = _env_path("AUTODUB_MODELS_DIR", PROJECT_ROOT / "models")
+MODELS_ROOT = _env_path("AUTODUB_MODELS_DIR", _BASE / "models")
 WHISPER_MODEL = MODELS_ROOT / "stt" / "faster-whisper-large-v3"
 TRANSLATION_MODEL = MODELS_ROOT / "translation" / "opus-mt-ja-en"
 PYANNOTE_MODEL = MODELS_ROOT / "diarization" / "pyannote-community-1"
@@ -60,7 +64,7 @@ QUALITY_PYTHON = _env_python("AUTODUB_PYTHON_QUALITY", MEDIA_PYTHON)
 ANALYSIS_PYTHON = _env_python("AUTODUB_PYTHON_ANALYSIS", MEDIA_PYTHON)
 CHATTERBOX_PYTHON = _env_python("AUTODUB_PYTHON_CHATTERBOX", MEDIA_PYTHON)
 COSYVOICE_PYTHON = _env_python("AUTODUB_PYTHON_COSYVOICE", MEDIA_PYTHON)
-COSYVOICE_SOURCE = _env_path("AUTODUB_COSYVOICE_SOURCE", PROJECT_ROOT / "third_party" / "CosyVoice")
+COSYVOICE_SOURCE = _env_path("AUTODUB_COSYVOICE_SOURCE", _BASE / "third_party" / "CosyVoice")
 _extra_site = os.environ.get("AUTODUB_COSYVOICE_EXTRA_SITE", "").strip()
 COSYVOICE_EXTRA_SITE = Path(_extra_site).expanduser() if _extra_site else None
 
