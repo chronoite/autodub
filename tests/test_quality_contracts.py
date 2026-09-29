@@ -13,24 +13,19 @@ from array import array
 from pathlib import Path
 from unittest.mock import patch
 
-
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
-
-from autodub.config import WORK_ROOT  # noqa: E402
-
-from autodub.config import FFMPEG, runtime_env
+from autodub.config import FFMPEG, runtime_env, WORK_ROOT
 from autodub.gpu_session import (
-    HEARTBEAT_FAILURE_LIMIT,
-    LEASE_TTL_SECONDS,
+    gpu_lease,
     GpuLease,
     GpuSafetyError,
-    gpu_lease,
+    HEARTBEAT_FAILURE_LIMIT,
+    LEASE_TTL_SECONDS,
     preflight_status,
 )
 from autodub.quality_profiles import CPU_PROFILE, DEFAULT_PROFILE, get_profile
-from autodub.state import default_job
-from autodub.state import job_dir, save_job
+from autodub.state import default_job, job_dir, save_job
+
+from tests import ROOT
 
 
 class QualityContractTests(unittest.TestCase):

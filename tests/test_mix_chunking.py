@@ -9,19 +9,14 @@ files, and stays bit-equivalent in shape to the single-pass mix.
 from __future__ import annotations
 
 import subprocess
-import sys
 import tempfile
 import unittest
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
+from autodub.config import FFMPEG, WORK_ROOT
+from autodub.media import build_mix, MIX_CHUNK_LINES, probe_duration
 
-from autodub.config import WORK_ROOT  # noqa: E402
-
-from autodub.config import FFMPEG
-from autodub.media import MIX_CHUNK_LINES, build_mix, probe_duration
-from tests import requires_ffmpeg  # noqa: E402
+from tests import requires_ffmpeg
 
 
 def _write_tone(path: Path, seconds: float = 0.12, frequency: int = 880) -> None:

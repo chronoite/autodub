@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Contract tests: voice bank + evidence cards. Hermetic — synthetic embeddings and
 segments only, VOICES_ROOT redirected to a temp dir, no GPU, no real media, no ffmpeg."""
 from __future__ import annotations

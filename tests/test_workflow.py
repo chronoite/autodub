@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import shutil
-import sys
 import tempfile
 import time
 import unittest
@@ -10,16 +9,10 @@ import unittest.mock
 import wave
 from pathlib import Path
 
-
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
-
-from autodub.config import WORK_ROOT  # noqa: E402
-
-from autodub.policies import public_policies
-from autodub.state import job_dir
-from autodub.state import default_job, save_job
+from autodub.config import WORK_ROOT
 from autodub.experiment_store import run_dir
+from autodub.policies import public_policies
+from autodub.state import default_job, job_dir, save_job
 from autodub.tts_experiment import plan_tts_experiment
 from autodub.workflow import (
     apply_forced_alignment,
@@ -35,6 +28,8 @@ from autodub.workflow import (
     reusable_line,
     write_synth_progress,
 )
+
+from tests import ROOT
 
 
 def _silent_wav(path: Path, seconds: float, rate: int = 8000) -> None:

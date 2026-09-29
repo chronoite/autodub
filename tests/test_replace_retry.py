@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Contracts for state.replace_retry — the Windows save-collision fix.
 
 A plain open() on Windows blocks os.replace with PermissionError, which is exactly how

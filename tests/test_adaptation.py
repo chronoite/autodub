@@ -1,11 +1,7 @@
 """Hermetic contracts for the pure half of dialogue adaptation (no LLM, no I/O)."""
 from __future__ import annotations
 
-import sys
 import unittest
-from pathlib import Path
-
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 
 from autodub import adaptation
 from autodub.config import ADAPT_CPS, ADAPT_GUARD_S, ADAPT_TAIL_SLACK_S

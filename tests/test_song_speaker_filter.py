@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Hermetic contracts: intro/outro speakers and song-flagged lines never reach the
 character boards (theme songs are never dubbed)."""
 import unittest

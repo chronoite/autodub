@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Hermetic contract for the prewarm card walk (pure part only; no media, no threads)."""
 import unittest
 

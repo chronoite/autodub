@@ -17,15 +17,9 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
-
-from autodub.config import WORK_ROOT  # noqa: E402
-
+from autodub.config import WORK_ROOT
 from autodub.reference_quality import build_candidate_windows, pick_reference_windows
-
-sys.path.insert(0, str(ROOT / "src" / "autodub" / "workers"))
-import quality_worker
+from autodub.workers import quality_worker
 
 
 def _segment(i: int, start: float, end: float, *, confidence: float = 1.0,

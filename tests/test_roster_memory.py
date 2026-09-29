@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Hermetic contracts for the roster's reviewer memory: cannot-link pairs keep
 separated speakers apart in clustering, and rejection lookups are exact."""
 import unittest

@@ -2,18 +2,12 @@ from __future__ import annotations
 
 import math
 import struct
-import sys
 import tempfile
 import unittest
 import wave
 from pathlib import Path
 
-
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
-
-from autodub.config import WORK_ROOT  # noqa: E402
-
+from autodub.config import WORK_ROOT
 from autodub.delivery import analyze_delivery, chatterbox_controls
 
 

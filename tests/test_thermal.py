@@ -2,16 +2,12 @@
 from __future__ import annotations
 
 import subprocess
-import sys
 import types
 import unittest
-from pathlib import Path
 from unittest.mock import patch
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
+from autodub import thermal
 
-from autodub import thermal  # noqa: E402
 
 # Human-readable format accepted from AUTODUB_GPU_TEMP_COMMAND.
 SENSOR_OUTPUT = """GPU thermals

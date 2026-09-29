@@ -1,10 +1,9 @@
 from __future__ import annotations
 
-import json
 import io
+import json
 import shutil
 import subprocess
-import sys
 import tempfile
 import threading
 import unittest
@@ -12,20 +11,22 @@ import wave
 from pathlib import Path
 from unittest import mock
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
-
-from autodub.config import WORK_ROOT  # noqa: E402
-
 from autodub import adapters, gpu_session
 from autodub.adapters import sapi_voices, synthesize_sapi
-from autodub.config import FFMPEG, MEDIA_PYTHON, runtime_env
-from autodub.media import _atempo_chain, align_line, build_mix, mux, probe_duration
-from autodub.voice_profiles import import_profile, list_profiles, profile_path
-from autodub.state import default_job, job_dir, new_job_id, save_job
+from autodub.config import (
+    FFMPEG,
+    MEDIA_PYTHON,
+    runtime_env,
+    TRANSLATION_MODEL,
+    WHISPER_MODEL,
+    WORK_ROOT,
+)
 from autodub.experiments.timing_screen import _render_comparison
-from tests import requires_ffmpeg, requires_model, requires_windows, requires_worker_modules  # noqa: E402
-from autodub.config import TRANSLATION_MODEL, WHISPER_MODEL  # noqa: E402
+from autodub.media import _atempo_chain, align_line, build_mix, mux, probe_duration
+from autodub.state import default_job, job_dir, new_job_id, save_job
+from autodub.voice_profiles import import_profile, list_profiles, profile_path
+
+from tests import requires_ffmpeg, requires_model, requires_windows, requires_worker_modules, ROOT
 
 
 class CoreContractTests(unittest.TestCase):

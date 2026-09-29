@@ -13,6 +13,12 @@
 > reviewable workflow. It is shared as a portfolio piece to show the design, not as software ready
 > for general use: dub quality is rough and uneven, and there is no support. See
 > [Known limitations](#known-limitations). Issues and pull requests are not being accepted.
+>
+> **How it was built:** this is a fun side project developed with heavy AI assistance. Much of the
+> code, tests and documentation were written with an AI coding assistant (Claude) working from my
+> direction, planning and review of the results, and commits carry a co-author trailer to say so.
+> It is nowhere near complete and has not had an independent code review, so treat it as a
+> prototype, not as a reference implementation.
 
 AutoDub takes a video file and produces an English-dubbed copy: it separates dialogue from music
 and effects, transcribes and translates the Japanese, works out who is speaking, clones each

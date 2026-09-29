@@ -12,11 +12,11 @@ from types import SimpleNamespace
 from unittest.mock import patch
 
 import numpy as np
-
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
-
-from autodub.speaker_evidence import derive_speaker_evidence, normalize_speaker_count, suggest_duplicate_pairs
+from autodub.speaker_evidence import (
+    derive_speaker_evidence,
+    normalize_speaker_count,
+    suggest_duplicate_pairs,
+)
 from autodub.state import default_job, public_job
 from autodub.workers import quality_worker
 

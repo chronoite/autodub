@@ -3,27 +3,23 @@ from __future__ import annotations
 import base64
 import json
 import shutil
-import sys
 import tempfile
 import threading
 import unittest
-import urllib.request
 import urllib.error
-from urllib.parse import urlencode
+import urllib.request
 from http.server import ThreadingHTTPServer
 from pathlib import Path
+from urllib.parse import urlencode
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
-
-from autodub.config import WORK_ROOT  # noqa: E402
-
-from autodub.server import AutoDubHandler, serve
 from autodub.adapters import sapi_voices, synthesize_sapi
+from autodub.config import WORK_ROOT
+from autodub.experiment_store import load_run, run_dir, save_run
+from autodub.server import AutoDubHandler, serve
 from autodub.state import default_job, job_dir, new_job_id, public_job, save_job
 from autodub.voice_profiles import profile_path
-from autodub.experiment_store import load_run, run_dir, save_run
-from tests import requires_ffmpeg, requires_windows  # noqa: E402
+
+from tests import requires_ffmpeg, requires_windows
 
 
 class LoopbackServerTests(unittest.TestCase):

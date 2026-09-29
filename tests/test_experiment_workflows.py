@@ -2,13 +2,7 @@ from __future__ import annotations
 
 import shutil
 import subprocess
-import sys
 import unittest
-from pathlib import Path
-
-
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
 
 from autodub.adapters import sapi_voices, synthesize_sapi
 from autodub.config import FFMPEG
@@ -16,7 +10,8 @@ from autodub.experiment_store import load_run, run_dir
 from autodub.policy_experiment import build_policy_experiment
 from autodub.state import default_job, job_dir, save_job
 from autodub.tts_experiment import execute_tts_experiment, plan_tts_experiment
-from tests import requires_ffmpeg, requires_windows  # noqa: E402
+
+from tests import requires_ffmpeg, requires_windows
 
 
 class RealExperimentWorkflowTests(unittest.TestCase):

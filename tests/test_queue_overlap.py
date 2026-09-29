@@ -7,7 +7,6 @@ from __future__ import annotations
 
 import contextlib
 import shutil
-import sys
 import tempfile
 import threading
 import time
@@ -15,13 +14,11 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
-
-from autodub.config import WORK_ROOT  # noqa: E402
-
 from autodub import episode_queue, pipeline
+from autodub.config import WORK_ROOT
 from autodub.state import default_job, job_dir, load_job, save_job
+
+from tests import ROOT
 
 
 def _reading(junction: float) -> dict:

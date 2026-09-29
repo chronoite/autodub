@@ -6,16 +6,13 @@ from __future__ import annotations
 
 import shutil
 import subprocess
-import sys
 import unittest
-from pathlib import Path
-
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
 
 from autodub import casting, oplog
 from autodub.state import default_job, job_dir, load_job, save_job
 from autodub.workflow import load_line_manifest, save_line_manifest
+
+from tests import ROOT
 
 
 def _job_with_speakers(job_id: str) -> dict:

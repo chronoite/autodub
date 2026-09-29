@@ -1,19 +1,13 @@
 from __future__ import annotations
 
 import shutil
-import sys
 import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
-
-from autodub.config import WORK_ROOT  # noqa: E402
-
 from autodub import episode_queue
+from autodub.config import WORK_ROOT
 from autodub.state import default_job, job_dir, load_job, save_job
 
 

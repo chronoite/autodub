@@ -2,7 +2,8 @@
 
 ## 0.2.0 — 2026-09-29
 
-First public release of an experimental personal research project.
+First public release of an experimental personal research project, built with heavy AI assistance
+(see the README status note); a prototype, not a finished product.
 
 - Local, human-in-the-loop Japanese-to-English dubbing pipeline: separation, transcription,
   alignment, diarization, translation, voice-cloned synthesis, timing fit, mix and mux.

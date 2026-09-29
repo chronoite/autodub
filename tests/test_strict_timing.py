@@ -4,22 +4,18 @@ from __future__ import annotations
 
 import math
 import struct
-import sys
 import tempfile
 import unittest
 import wave
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
-
-from autodub.config import WORK_ROOT  # noqa: E402
-
+from autodub.config import WORK_ROOT
 from autodub.media import align_line, trim_edge_silence
 from autodub.pipeline import _next_rendered_starts
 from autodub.policies import get_timing_policy
 from autodub.workflow import audit_timing
-from tests import requires_ffmpeg  # noqa: E402
+
+from tests import requires_ffmpeg, ROOT
 
 
 def _tone_wav(path: Path, seconds: float, *, lead_silence: float = 0.0,

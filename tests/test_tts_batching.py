@@ -7,16 +7,11 @@ import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
+from autodub.config import WORK_ROOT
+from autodub.workers import quality_worker
+from autodub.workers.quality_worker import _batch_groups
 
-from autodub.config import WORK_ROOT  # noqa: E402
-sys.path.insert(0, str(ROOT / "src" / "autodub" / "workers"))
-
-import quality_worker
-from quality_worker import _batch_groups
-
-from tests.test_runaway_guard import _FakeModel, _FakeTorch, _fake_qwen_tts, _fake_soundfile
+from tests.test_runaway_guard import _fake_qwen_tts, _fake_soundfile, _FakeModel, _FakeTorch
 
 
 def _line(index: int, text: str, tmp: Path, *, slot: float | None = 1.0,

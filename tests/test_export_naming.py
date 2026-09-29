@@ -5,19 +5,16 @@ the opaque job-ID file stays canonical so app links and existing jobs never brea
 """
 from __future__ import annotations
 
-import sys
 import tempfile
 import unittest
 from pathlib import Path
 from unittest.mock import patch
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
-
-from autodub.config import WORK_ROOT  # noqa: E402
-
 from autodub import pipeline, state
+from autodub.config import WORK_ROOT
 from autodub.state import friendly_output_path, sanitize_export_stem
+
+from tests import ROOT
 
 
 class ExportNamingTests(unittest.TestCase):

@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Hermetic contracts for the cast-pack episode-signature matcher."""
 import unittest
 

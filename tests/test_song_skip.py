@@ -10,8 +10,8 @@ from pathlib import Path
 
 from autodub import pipeline
 from autodub.song_detect import (
-    _is_song_label,
     _ass_seconds,
+    _is_song_label,
     detect_songs,
     mark_song_segments,
     merge_ranges,

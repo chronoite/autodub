@@ -9,21 +9,19 @@ from __future__ import annotations
 
 import json
 import shutil
-import sys
 import tempfile
 import unittest
 from pathlib import Path
 from unittest import mock
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
-
-from autodub.config import WORK_ROOT  # noqa: E402
-
 from autodub import adaptation_runner
 from autodub.adaptation_runner import adapt_reviewed
-from autodub.gpu_session import GpuSafetyError, arm
+from autodub.config import WORK_ROOT
+from autodub.gpu_session import arm, GpuSafetyError
 from autodub.state import default_job, job_dir, load_job, save_job
+
+from tests import ROOT
+
 
 LONG_LINE = "This translation is far too long to ever be spoken in a one second slot."
 

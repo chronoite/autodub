@@ -6,12 +6,7 @@ per candidate. Numeric scores stay accepted so archived runs remain valid.
 from __future__ import annotations
 
 import shutil
-import sys
 import unittest
-from pathlib import Path
-
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
 
 from autodub.experiment_store import create_run, load_run, run_dir, update_review
 from autodub.state import default_job, job_dir, new_job_id, save_job

@@ -2,14 +2,11 @@
 source-level wiring (assets exist, endpoints referenced are real)."""
 from __future__ import annotations
 
-import sys
 import unittest
-from pathlib import Path
-
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
 
 from autodub.casting import sanitize_studio_progress
+
+from tests import ROOT
 
 
 class StudioProgressTests(unittest.TestCase):

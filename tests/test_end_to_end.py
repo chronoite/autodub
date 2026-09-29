@@ -2,24 +2,18 @@ from __future__ import annotations
 
 import shutil
 import subprocess
-import sys
 import tempfile
 import unittest
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
-
-from autodub.config import WORK_ROOT  # noqa: E402
-
 from autodub.adapters import sapi_voices, synthesize_sapi
 from autodub.cli import import_source
-from autodub.config import FFMPEG
+from autodub.config import FFMPEG, TRANSLATION_MODEL, WHISPER_MODEL, WORK_ROOT
 from autodub.pipeline import analyze, render
 from autodub.quality_profiles import CPU_PROFILE, get_profile
 from autodub.state import job_dir, load_job, output_path, save_job
-from tests import requires_ffmpeg, requires_model, requires_windows  # noqa: E402
-from autodub.config import TRANSLATION_MODEL, WHISPER_MODEL  # noqa: E402
+
+from tests import requires_ffmpeg, requires_model, requires_windows
 
 
 class EndToEndSyntheticTest(unittest.TestCase):
