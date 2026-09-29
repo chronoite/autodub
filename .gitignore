@@ -1,0 +1,44 @@
+# Runtime data and model weights never belong in the repository
+/data/
+/models/
+/runtime_deps/
+/third_party/
+*.gguf
+*.safetensors
+*.pt
+*.th
+*.onnx
+
+# Media
+*.mp4
+*.mkv
+*.mov
+*.webm
+*.avi
+*.m4v
+*.wav
+*.mp3
+*.flac
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+.pytest_cache/
+
+# Local configuration
+.env
+*.local.ps1
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Local tooling
+/.claude/

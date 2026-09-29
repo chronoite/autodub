@@ -1,0 +1,500 @@
+{
+  "schema": 1,
+  "privacy": "opaque-job-ids-only; local-runtime; no-runtime-downloads; no-telemetry",
+  "experiments": [
+    {
+      "id": "voice-quality-v1",
+      "question": "Which local voice stack best preserves identity while sounding fluid in English?",
+      "candidates": [
+        {
+          "id": "qwen3-tts-1.7b",
+          "device": "gpu",
+          "license": "Apache-2.0",
+          "status": "acquired"
+        },
+        {
+          "id": "qwen3-tts-0.6b",
+          "device": "gpu",
+          "license": "Apache-2.0",
+          "status": "acquired"
+        },
+        {
+          "id": "chatterbox-multilingual-v3",
+          "device": "gpu",
+          "license": "MIT",
+          "status": "acquired-and-wired"
+        },
+        {
+          "id": "cosyvoice3-0.5b",
+          "device": "gpu",
+          "license": "Apache-2.0",
+          "status": "acquired-and-wired"
+        },
+        {
+          "id": "gpt-sovits-current",
+          "device": "gpu",
+          "license": "MIT",
+          "status": "baseline-external-service"
+        },
+        {
+          "id": "windows-sapi",
+          "device": "cpu",
+          "license": "operating-system",
+          "status": "control"
+        }
+      ],
+      "criteria": [
+        "naturalness",
+        "speaker_similarity",
+        "emotion_and_prosody",
+        "pronunciation",
+        "cross-line_consistency",
+        "artifacts"
+      ],
+      "required_material": "same clean reference and fixed short/medium/emotional line set",
+      "promotion_gate": "human listening review; no identity or private text in the manifest"
+    },
+    {
+      "id": "speaker-detection-v1",
+      "question": "Which local diarization path most reliably keeps characters distinct?",
+      "candidates": [
+        {
+          "id": "pyannote-community-1-exclusive-gpu",
+          "device": "gpu",
+          "license": "CC-BY-4.0",
+          "status": "acquired-not-admitted"
+        },
+        {
+          "id": "pyannote-community-1-exclusive-cpu",
+          "device": "cpu",
+          "license": "CC-BY-4.0",
+          "status": "acquired-not-admitted"
+        },
+        {
+          "id": "acoustic-mfcc-reviewable",
+          "device": "cpu",
+          "license": "project",
+          "status": "baseline"
+        }
+      ],
+      "criteria": [
+        "speaker_confusions",
+        "false_splits",
+        "missed_speakers",
+        "overlap_handling",
+        "offscreen_speech",
+        "reviewer_corrections"
+      ],
+      "required_material": "reviewer-selected clips with 1, 2, and 3+ speakers plus overlap",
+      "promotion_gate": "reviewer-corrected reference map plus per-clip error counts"
+    },
+    {
+      "id": "timing-alignment-v1",
+      "question": "Which alignment strategy best matches audible and visible speech without damaging voice quality?",
+      "candidates": [
+        {
+          "id": "segment-window-atempo",
+          "device": "cpu",
+          "license": "project",
+          "status": "baseline"
+        },
+        {
+          "id": "whisper-word-boundaries",
+          "device": "cpu-or-gpu",
+          "license": "MIT",
+          "status": "implemented"
+        },
+        {
+          "id": "whisperx-forced-alignment",
+          "device": "cpu-or-gpu",
+          "license": "BSD-2-Clause + Apache-2.0 model",
+          "status": "acquisition-wired"
+        }
+      ],
+      "criteria": [
+        "onset_error_ms",
+        "offset_error_ms",
+        "visible_lip_alignment",
+        "tempo_damage",
+        "trim_or_pad_artifacts",
+        "sentence_rhythm"
+      ],
+      "required_material": "short, long, rapid, interrupted, and reaction lines",
+      "promotion_gate": "frame-level human review plus measured timing deltas"
+    },
+    {
+      "id": "dialogue-separation-v1",
+      "question": "Which local mix path removes source dialogue while preserving music and effects?",
+      "candidates": [
+        {
+          "id": "demucs-htdemucs-ft-gpu",
+          "device": "gpu",
+          "license": "MIT",
+          "status": "acquired"
+        },
+        {
+          "id": "demucs-htdemucs-ft-cpu",
+          "device": "cpu",
+          "license": "MIT",
+          "status": "acquired-slow"
+        },
+        {
+          "id": "source-bed-ducking",
+          "device": "cpu",
+          "license": "project",
+          "status": "baseline"
+        }
+      ],
+      "criteria": [
+        "original_dialogue_bleed",
+        "music_damage",
+        "effect_damage",
+        "vocal_music_damage",
+        "new_dialogue_clarity",
+        "mix_continuity"
+      ],
+      "required_material": "dialogue over quiet, music, action effects, and background voices",
+      "promotion_gate": "human listening review; licensed weights only"
+    },
+    {
+      "id": "translation-context-v1",
+      "question": "Which local translator produces faithful, natural, scene-consistent English?",
+      "candidates": [
+        {
+          "id": "opus-mt-ja-en-linewise",
+          "device": "cpu",
+          "license": "Apache-2.0",
+          "status": "baseline"
+        },
+        {
+          "id": "qwen3-14b-contextual-gguf",
+          "device": "cpu-or-gpu",
+          "license": "Apache-2.0",
+          "status": "acquisition-wired-q8"
+        }
+      ],
+      "criteria": [
+        "meaning_fidelity",
+        "natural_english",
+        "name_consistency",
+        "pronoun_consistency",
+        "tone",
+        "timing_fit"
+      ],
+      "required_material": "same scenes with surrounding context and a reviewer-approved glossary",
+      "promotion_gate": "line-by-line human review; local model only"
+    },
+    {
+      "id": "dub-policy-v1",
+      "question": "Which modular timing and balance policy produces the most natural watchable dub?",
+      "candidates": [
+        {
+          "id": "balanced-gentle",
+          "device": "cpu",
+          "license": "project",
+          "status": "implemented",
+          "mix_policy": "balanced-v1",
+          "timing_policy": "gentle-fit-v1"
+        },
+        {
+          "id": "cinematic-gentle",
+          "device": "cpu",
+          "license": "project",
+          "status": "implemented",
+          "mix_policy": "cinematic-v1",
+          "timing_policy": "gentle-fit-v1"
+        },
+        {
+          "id": "dialogue-forward-gentle",
+          "device": "cpu",
+          "license": "project",
+          "status": "implemented",
+          "mix_policy": "dialogue-forward-v1",
+          "timing_policy": "gentle-fit-v1"
+        },
+        {
+          "id": "balanced-natural",
+          "device": "cpu",
+          "license": "project",
+          "status": "implemented",
+          "mix_policy": "balanced-v1",
+          "timing_policy": "natural-start-v1"
+        },
+        {
+          "id": "balanced-exact-window",
+          "device": "cpu",
+          "license": "project",
+          "status": "baseline",
+          "mix_policy": "balanced-v1",
+          "timing_policy": "segment-window-v1"
+        },
+        {
+          "id": "balanced-light-room",
+          "device": "cpu",
+          "license": "project",
+          "status": "implemented",
+          "mix_policy": "balanced-v1",
+          "timing_policy": "gentle-fit-v1",
+          "space_policy": "light-room-v1"
+        }
+      ],
+      "criteria": [
+        "dialogue_balance",
+        "music_and_effect_preservation",
+        "onset_timing",
+        "offset_timing",
+        "tempo_damage",
+        "sentence_rhythm",
+        "overall_watchability"
+      ],
+      "required_material": "reviewer-selected range from an analyzed job with existing line audio",
+      "promotion_gate": "human viewing/listening review; no automatic winner"
+    },
+    {
+      "id": "dub-mix-balance-v1",
+      "question": "Which dialogue-to-bed balance fixes dialogue that sits somewhat too loud without losing intelligibility?",
+      "candidates": [
+        {
+          "id": "mix-a-forward",
+          "device": "cpu",
+          "license": "project",
+          "status": "implemented",
+          "mix_policy": "dialogue-forward-v1",
+          "timing_policy": "gentle-fit-v1",
+          "space_policy": "dry-v1",
+          "note": "loud anchor"
+        },
+        {
+          "id": "mix-b-current",
+          "device": "cpu",
+          "license": "project",
+          "status": "implemented",
+          "mix_policy": "balanced-v1",
+          "timing_policy": "gentle-fit-v1",
+          "space_policy": "dry-v1",
+          "note": "current default (control)"
+        },
+        {
+          "id": "mix-c-halfstep",
+          "device": "cpu",
+          "license": "project",
+          "status": "implemented",
+          "mix_policy": "balanced-soft-v1",
+          "timing_policy": "gentle-fit-v1",
+          "space_policy": "dry-v1",
+          "note": "half-step softer"
+        },
+        {
+          "id": "mix-d-cinematic",
+          "device": "cpu",
+          "license": "project",
+          "status": "implemented",
+          "mix_policy": "cinematic-v1",
+          "timing_policy": "gentle-fit-v1",
+          "space_policy": "dry-v1",
+          "note": "existing softer option"
+        },
+        {
+          "id": "mix-e-soft",
+          "device": "cpu",
+          "license": "project",
+          "status": "implemented",
+          "mix_policy": "dialogue-soft-v1",
+          "timing_policy": "gentle-fit-v1",
+          "space_policy": "dry-v1",
+          "note": "clearly softer"
+        },
+        {
+          "id": "mix-f-softest",
+          "device": "cpu",
+          "license": "project",
+          "status": "implemented",
+          "mix_policy": "dialogue-softest-v1",
+          "timing_policy": "gentle-fit-v1",
+          "space_policy": "dry-v1",
+          "note": "far bracket - presumed too quiet, run anyway"
+        }
+      ],
+      "criteria": [
+        "dialogue_balance",
+        "dialogue_intelligibility",
+        "music_and_effect_preservation",
+        "overall_watchability"
+      ],
+      "required_material": "reviewer-selected range from an analyzed job with existing line audio; timing and space held constant",
+      "promotion_gate": "human listening review; a winner (if any) becomes DEFAULT_MIX_POLICY only on an explicit verdict"
+    },
+    {
+      "id": "dub-dialogue-mix-v1",
+      "question": "On a BUSY 4-speaker conversation (not the music-heavy outro the first bench landed on), which balance keeps every line intelligible without the bed swamping it?",
+      "candidates": [
+        {
+          "id": "dlg-a-current",
+          "device": "cpu",
+          "license": "project",
+          "status": "implemented",
+          "mix_policy": "balanced-v1",
+          "timing_policy": "gentle-fit-v1",
+          "space_policy": "dry-v1",
+          "note": "current default (control)"
+        },
+        {
+          "id": "dlg-b-halfstep",
+          "device": "cpu",
+          "license": "project",
+          "status": "implemented",
+          "mix_policy": "balanced-soft-v1",
+          "timing_policy": "gentle-fit-v1",
+          "space_policy": "dry-v1",
+          "note": "half-step softer bed"
+        },
+        {
+          "id": "dlg-c-soft",
+          "device": "cpu",
+          "license": "project",
+          "status": "implemented",
+          "mix_policy": "dialogue-soft-v1",
+          "timing_policy": "gentle-fit-v1",
+          "space_policy": "dry-v1",
+          "note": "softer dialogue, fuller bed"
+        },
+        {
+          "id": "dlg-d-softest",
+          "device": "cpu",
+          "license": "project",
+          "status": "implemented",
+          "mix_policy": "dialogue-softest-v1",
+          "timing_policy": "gentle-fit-v1",
+          "space_policy": "dry-v1",
+          "note": "softest dialogue"
+        },
+        {
+          "id": "dlg-e-cinematic",
+          "device": "cpu",
+          "license": "project",
+          "status": "implemented",
+          "mix_policy": "cinematic-v1",
+          "timing_policy": "gentle-fit-v1",
+          "space_policy": "dry-v1",
+          "note": "cinematic option"
+        },
+        {
+          "id": "dlg-f-room",
+          "device": "cpu",
+          "license": "project",
+          "status": "implemented",
+          "mix_policy": "balanced-soft-v1",
+          "timing_policy": "gentle-fit-v1",
+          "space_policy": "light-room-v1",
+          "note": "half-step + light room glue"
+        }
+      ],
+      "promotion_gate": "human listening review; winner may become DEFAULT_MIX_POLICY",
+      "criteria": [
+        "dialogue_balance",
+        "dialogue_intelligibility",
+        "music_and_effect_preservation",
+        "overall_watchability"
+      ],
+      "required_material": "reviewed job with rendered lines; window @240s/75s (25 lines, 4 speakers)"
+    },
+    {
+      "id": "dub-duck-v1",
+      "question": "Where the bed is loudest and speech is sparse (action/score under dialogue), does ducking hold the lines up without pumping?",
+      "candidates": [
+        {
+          "id": "duck-a-current",
+          "device": "cpu",
+          "license": "project",
+          "status": "implemented",
+          "mix_policy": "balanced-v1",
+          "timing_policy": "gentle-fit-v1",
+          "space_policy": "dry-v1",
+          "note": "current default (control)"
+        },
+        {
+          "id": "duck-b-forward",
+          "device": "cpu",
+          "license": "project",
+          "status": "implemented",
+          "mix_policy": "dialogue-forward-v1",
+          "timing_policy": "gentle-fit-v1",
+          "space_policy": "dry-v1",
+          "note": "loud anchor"
+        },
+        {
+          "id": "duck-c-halfstep",
+          "device": "cpu",
+          "license": "project",
+          "status": "implemented",
+          "mix_policy": "balanced-soft-v1",
+          "timing_policy": "gentle-fit-v1",
+          "space_policy": "dry-v1",
+          "note": "half-step softer"
+        },
+        {
+          "id": "duck-d-cinematic",
+          "device": "cpu",
+          "license": "project",
+          "status": "implemented",
+          "mix_policy": "cinematic-v1",
+          "timing_policy": "gentle-fit-v1",
+          "space_policy": "dry-v1",
+          "note": "cinematic option"
+        }
+      ],
+      "promotion_gate": "human listening review",
+      "criteria": [
+        "dialogue_intelligibility_under_loud_bed",
+        "ducking_naturalness_no_pumping",
+        "music_and_effect_preservation",
+        "overall_watchability"
+      ],
+      "required_material": "reviewed job with rendered lines; window @375s/75s (bed-dominant, 24% speech)"
+    },
+    {
+      "id": "dub-timing-v1",
+      "question": "On the most crowded scene (6 speakers, overlapping lines), which timing policy tracks the characters most closely?",
+      "candidates": [
+        {
+          "id": "tim-a-gentle",
+          "device": "cpu",
+          "license": "project",
+          "status": "implemented",
+          "mix_policy": "balanced-soft-v1",
+          "timing_policy": "gentle-fit-v1",
+          "space_policy": "dry-v1",
+          "note": "current: fit when natural, else preserve"
+        },
+        {
+          "id": "tim-b-natural",
+          "device": "cpu",
+          "license": "project",
+          "status": "implemented",
+          "mix_policy": "balanced-soft-v1",
+          "timing_policy": "natural-start-v1",
+          "space_policy": "dry-v1",
+          "note": "keep synth pacing, anchor line start"
+        },
+        {
+          "id": "tim-c-window",
+          "device": "cpu",
+          "license": "project",
+          "status": "implemented",
+          "mix_policy": "balanced-soft-v1",
+          "timing_policy": "segment-window-v1",
+          "space_policy": "dry-v1",
+          "note": "fit inside the segment window"
+        }
+      ],
+      "promotion_gate": "human listening review; winner may become DEFAULT_TIMING_POLICY",
+      "criteria": [
+        "lip_and_character_sync",
+        "line_completeness_no_clipping",
+        "pacing_naturalness",
+        "overall_watchability"
+      ],
+      "required_material": "reviewed job with rendered lines; window @585s/75s (6 speakers, 1 overlap)"
+    }
+  ]
+}

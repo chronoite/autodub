@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "autodub"
+version = "0.2.0"
+description = "Local, offline, human-in-the-loop Japanese-to-English anime dubbing pipeline"
+readme = "README.md"
+license = { file = "LICENSE" }
+authors = [{ name = "Collin Loy" }]
+requires-python = ">=3.11"
+# The orchestrator, HTTP server and web UI use only the standard library. Model inference runs in
+# separate worker environments; see requirements/ and docs/SETUP.md.
+dependencies = []
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Operating System :: OS Independent",
+    "Topic :: Multimedia :: Sound/Audio :: Speech",
+    "Topic :: Multimedia :: Video",
+]
+
+[project.optional-dependencies]
+download = ["huggingface_hub>=0.25"]
+
+[project.scripts]
+autodub = "autodub.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+autodub = ["web/static/*", "experiments/*.json", "experiments/README.md"]

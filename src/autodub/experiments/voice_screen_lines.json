@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "language": "English",
+  "lines": [
+    {"id": "short", "text": "I'm right here."},
+    {"id": "medium", "text": "We should take this one step at a time, and make sure we understand each other."},
+    {"id": "warm", "text": "I was worried for a moment, but hearing your voice makes everything feel a little easier."},
+    {"id": "urgent", "text": "Wait! Don't move yet. I need you to listen to me."},
+    {"id": "names", "text": "Mika asked Elena whether Doctor Sato would meet them at seven thirty."}
+  ]
+}

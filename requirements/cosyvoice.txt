@@ -1,0 +1,4 @@
+# Optional experiment environment (AUTODUB_PYTHON_COSYVOICE). Tested with Python 3.11.
+# Also clone https://github.com/FunAudioLLM/CosyVoice (with submodules) and point
+# AUTODUB_COSYVOICE_SOURCE at it; install that repository's requirements.txt here.
+modelscope==1.38.1

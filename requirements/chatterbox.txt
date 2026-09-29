@@ -1,0 +1,2 @@
+# Optional experiment environment (AUTODUB_PYTHON_CHATTERBOX). Tested with Python 3.11.
+chatterbox-tts==0.1.7

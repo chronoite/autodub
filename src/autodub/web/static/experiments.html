@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Experiment review — AutoDub</title>
+  <link rel="stylesheet" href="studio-page.css">
+  <link rel="stylesheet" href="experiments.css">
+</head>
+<body>
+  <div id="topbar">
+    <a id="back" class="ghost" href="/">← studio</a>
+    <div id="page-title">Experiment review</div>
+    <div class="spacer"></div>
+    <label class="blind-toggle"><input id="blind" type="checkbox" checked> Blind labels</label>
+    <button id="refresh" class="secondary">Refresh</button>
+  </div>
+
+  <div id="layout">
+    <aside id="runs">
+      <p class="muted pad">Loading runs…</p>
+    </aside>
+    <main id="run">
+      <div class="pad muted">
+        <p>Select a run to judge it.</p>
+        <p>Each run changes one component (voice model, timing policy, mix balance…) while the source
+          scene and review criteria stay fixed. Candidates are shown under neutral letters in a
+          per-run shuffled order so the judgment is about the sound, not the name.</p>
+      </div>
+    </main>
+  </div>
+
+  <script src="experiments.js"></script>
+</body>
+</html>

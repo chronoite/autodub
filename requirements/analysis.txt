@@ -1,0 +1,8 @@
+# GPU analysis environment (AUTODUB_PYTHON_ANALYSIS): diarization, forced alignment, separation.
+# Tested with Python 3.11 and PyTorch 2.8 (CUDA 12.8 build from https://pytorch.org).
+torch==2.8.0
+torchaudio==2.8.0
+pyannote.audio==4.0.7
+whisperx==3.8.6
+demucs==4.1.0
+faster-whisper==1.2.1

@@ -1,0 +1,10 @@
+# CPU worker environment (AUTODUB_PYTHON_MEDIA): transcription, baseline translation, acoustic
+# speaker clustering. Tested with Python 3.11. Install the CPU build of PyTorch unless you want CUDA.
+faster-whisper==1.2.1
+transformers==4.46.2
+torch==2.5.1
+sentencepiece==0.2.0
+sacremoses==0.1.1
+librosa==0.11.0
+scikit-learn>=1.5
+numpy==1.26.4

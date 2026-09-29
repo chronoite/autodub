@@ -1,0 +1,7 @@
+# GPU speech-synthesis environment (AUTODUB_PYTHON_QUALITY): Qwen3-TTS voice cloning.
+# Tested with Python 3.12 and PyTorch 2.11 (CUDA 12.8 build from https://pytorch.org).
+torch==2.11.0
+torchaudio==2.11.0
+qwen-tts==0.1.1
+soundfile>=0.12
+numpy>=1.26

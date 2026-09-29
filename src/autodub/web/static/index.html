@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>AutoDub Local Studio</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="mark">AD</span><div><strong>AutoDub</strong><small>local dialogue studio</small></div></div>
+    <div class="privacy"><span class="pulse"></span><strong>Offline runtime</strong><small>127.0.0.1 only</small></div>
+  </header>
+  <main class="shell">
+    <aside class="sidebar">
+      <section class="import-card">
+        <input id="source" type="file" accept="video/*" hidden>
+        <button id="pick" class="dropzone"><span class="drop-icon">+</span><b>Load source video</b><small>Copied locally under an opaque ID</small></button>
+        <div id="upload-state" class="muted"></div>
+      </section>
+      <div class="side-tabs">
+        <button id="tab-library" class="side-tab active">Library</button>
+        <button id="tab-activity" class="side-tab">Activity<span id="activity-count" class="tab-badge hidden">0</span></button>
+      </div>
+      <div id="library-pane">
+        <div class="sort-row">
+          <button class="sort-chip active" data-sort="recent">Recent</button>
+          <button class="sort-chip" data-sort="az">A–Z</button>
+          <button class="sort-chip" data-sort="review">Needs review</button>
+          <button id="projects-refresh" class="sort-refresh" title="Refresh">↻</button>
+        </div>
+        <div id="projects" class="projects"><div class="empty-small">Nothing imported yet</div></div>
+      </div>
+      <div id="activity-pane" class="hidden">
+        <div id="activity-list" class="activity-list"><div class="empty-small">Nothing running, nothing waiting.</div></div>
+        <div class="episode-queue-card">
+          <div id="episode-queue-state" class="muted">No reviewed jobs queued.</div>
+          <div class="episode-queue-actions">
+            <button id="queue-add-current" class="secondary">Add current</button>
+            <button id="queue-run" class="accent">Run</button>
+            <button id="queue-stop" class="danger">Stop</button>
+            <button id="queue-clear" class="secondary">Clear done</button>
+          </div>
+        </div>
+      </div>
+      <div class="privacy-note"><b>Privacy boundary</b><p>No cloud APIs. No runtime downloads. Source file paths never appear in logs or the API.</p></div>
+    </aside>
+    <section class="workspace">
+      <div id="project-view" class="hidden">
+        <section class="panel">
+          <div class="panel-title"><div><h3 id="project-title">Project</h3><p class="muted">The whole show at once: speakers merged across every analyzed episode and grouped into likely characters. Name a group ONCE and it applies to every episode it appears in. Season folders below; the voice bank is per-show, so a season-1 name keeps its voice in every later season.</p></div>
+          <div class="actions"><button id="project-prewarm" class="secondary" title="Cut every clip on this board now so plays are instant (already runs automatically on open)">Prepare all clips</button>
+          <button id="project-close" class="secondary">← back to jobs</button></div></div>
+          <div id="project-tree"></div>
+          <div id="prewarm-state" class="muted hidden"></div>
+          <div id="project-groups"></div>
+        </section>
+      </div>
+      <div id="welcome" class="welcome">
+        <div class="hero-orbit"><span>EN</span></div>
+        <p class="eyebrow">PRIVATE · REVIEWABLE · RESUMABLE</p>
+        <h1>Dub in stages,<br>keep every decision yours.</h1>
+        <p>Load a clip, analyze it locally, correct the transcript and speaker map, then render an English mix inside the original speech windows.</p>
+        <div class="stage-row"><span>1 · Analyze</span><i></i><span>2 · Review</span><i></i><span>3 · Render</span></div>
+      </div>
+      <div id="job-view" class="job-view hidden">
+        <section class="job-head panel">
+          <div><p class="eyebrow">OPAQUE PROJECT</p><h2 id="job-title"></h2><p id="job-meta" class="muted"></p></div>
+          <div class="actions"><button id="save" class="secondary">Save edits</button><button id="analyze" class="primary">Analyze locally</button><button id="render" class="primary accent">Render English dub</button><button id="realign" class="secondary">Realign + remix</button><button id="adapt" class="secondary" title="Slot-aware dialogue adaptation: rewrite English lines to fit their speech windows (meaning-locked)">Adapt dialogue</button><button id="open-studio" class="secondary" title="Merge duplicate voices, name characters, audition demos, and lock the cast">Casting studio</button><button id="cancel-job" class="danger hidden">Cancel safely</button><a id="download" class="button primary success hidden">Export MP4</a><a id="srt" class="button secondary hidden">Export SRT</a><button id="delete-job" class="danger" title="Delete this job and its outputs (sources in input/ and the voice bank are kept)">Delete job</button></div>
+        </section>
+        <section class="progress-panel panel">
+          <div class="progress-copy"><span id="stage">Ready</span><span id="percent">0%</span></div>
+          <div class="progress"><div id="bar"></div></div>
+          <div id="stage-checklist" class="stage-checklist"></div>
+          <p id="progress-detail" class="muted"></p>
+          <p id="error" class="error hidden"></p>
+        </section>
+        <div class="grid-two">
+          <section class="panel settings">
+            <div class="panel-title"><h3>Run settings</h3><span>Quality first · CPU supported</span></div>
+            <label>Quality profile<select id="quality-profile"></select><small id="profile-note">Exact local stack is recorded with the job.</small></label>
+            <label>GPU admission<div id="gpu-state" class="gpu-state">Checking render queue...</div><small>Quality actions arm once, recheck the queue, then use the shared lease.</small></label>
+            <label>Source language<select id="source-language"><option value="ja">Japanese</option></select></label>
+            <label>Expected speakers<input id="speakers" type="number" min="0" max="20" value="0"><small>0 = acoustic auto-cluster</small></label>
+            <label>Mix policy<select id="mix-policy"></select><small>Modular bed, ducking, and limiter recipe.</small></label>
+            <label>Timing policy<select id="timing-policy"></select><small>Swap timing without changing the voice model.</small></label>
+            <label>Voice space<select id="space-policy"></select><small>Dry by default; optional conservative room glue.</small></label>
+            <label>Emotion routing<select id="emotion-policy"><option value="source-energy-v1">Source-energy hints</option><option value="off">Off / neutral</option></select><small>Metadata only in normal renders; Chatterbox experiments can use confident hints.</small></label>
+            <label>Song skip (EXPERIMENTAL)<select id="song-policy"><option value="skip-detected-v1">Skip detected songs (in testing)</option><option value="dub-all-v1">Off — dub everything</option></select><small>Detected OP/ED/karaoke ranges keep the original singing. In development: check the review list for over-skipping; turn off if something seems wrong.</small></label>
+            <label>Source bed <output id="bed-value"></output><input id="bed" type="range" min="0" max="1.2" step="0.05"></label>
+            <label>English dialogue <output id="dialogue-value"></output><input id="dialogue" type="range" min="0.5" max="2" step="0.05"><small>Boosts the dubbed voices; the final limiter prevents clipping.</small></label>
+            <label>Maximum speech speed <output id="tempo-value"></output><input id="tempo" type="range" min="1" max="2" step="0.05"></label>
+          </section>
+          <section class="panel voices">
+            <div class="panel-title"><h3>Speaker voices</h3><span>Stable per project</span></div>
+            <div id="voice-map" class="voice-map"><p class="muted">Analyze first to discover speakers.</p></div>
+            <details class="voice-import">
+              <summary>Add a local clone reference</summary>
+              <p>Use a clean 3–10 second clip and its exact transcript. It stays local under an opaque profile ID.</p>
+              <input id="voice-file" type="file" accept="audio/wav,audio/flac,audio/mpeg,audio/mp4,audio/ogg">
+              <textarea id="voice-transcript" rows="2" placeholder="Exact words spoken in the reference clip"></textarea>
+              <div class="voice-import-row"><select id="voice-language"><option value="ja">Japanese reference</option><option value="en">English reference</option><option value="zh">Chinese reference</option><option value="ko">Korean reference</option></select><button id="voice-add" class="secondary">Import clone</button></div>
+              <small id="voice-import-state" class="muted"></small>
+            </details>
+            <details class="voice-import">
+              <summary>Translation glossary</summary>
+              <p>One local replacement per line: <code>source = preferred English</code>.</p>
+              <textarea id="glossary" rows="5" placeholder="Name = Preferred Name"></textarea>
+              <button id="apply-glossary" class="secondary">Apply glossary to reviewed lines</button>
+            </details>
+          </section>
+        </div>
+        <section class="panel characters-panel">
+          <div class="panel-title"><div><h3>Characters</h3><p class="muted">Series voice bank — the same character keeps the same voice across every episode. Confirm who is who; clear matches apply themselves (and are logged).</p></div><span>Per series · evidence cards</span></div>
+          <div class="characters-head">
+            <label>Series<input id="series-name" type="text" placeholder="series name (guessed from the file)"></label>
+            <button id="characters-load" class="secondary">Load characters</button>
+            <button id="characters-auto" class="secondary" title="Apply every clear-zone match; each one is logged as a decision">Apply clear matches</button>
+            <button id="characters-prewarm" class="secondary" title="Cut every clip in this panel now so plays are instant (also runs automatically on load)">Prepare clips</button>
+            <small id="characters-prewarm-state" class="muted hidden"></small>
+          </div>
+          <div id="characters-body"><p class="muted">Analyze first, then load characters to review who is who.</p></div>
+        </section>
+        <section class="panel experiment-panel">
+          <div class="panel-title"><div><h3>Experiment mode</h3><p class="muted">Build short timing and balance candidates, then judge them in <a href="/experiments.html">Experiment review</a>.</p></div><span>CPU mix · existing voices</span></div>
+          <div class="experiment-controls">
+            <label>Start seconds<input id="experiment-start" type="number" min="0" step="0.1" value="0"></label>
+            <label>Duration<input id="experiment-duration" type="number" min="5" max="120" step="1" value="45"></label>
+            <label>Rendered line set<select id="experiment-lines"><option value="lines">Current job lines</option><option value="lines-v3">Preserved v3 lines</option></select></label>
+            <button id="build-experiment" class="primary accent">Build comparison</button>
+          </div>
+          <small id="experiment-state" class="muted">Six candidates vary one timing, balance, or room-glue dimension at a time; no winner is automatic.</small>
+          <details class="tts-experiment">
+            <summary>Compare voice models on this reviewed scene</summary>
+            <p class="muted">Uses the same lines, speakers, timing, and mix for each selected local TTS model. GPU candidates wait for the GPU; judge them in Experiment review.</p>
+            <div id="tts-candidates" class="tts-candidates"></div>
+            <div class="tts-actions">
+              <button id="build-tts-experiment" class="primary">Queue TTS comparison</button>
+              <small id="tts-experiment-state" class="muted"></small>
+            </div>
+          </details>
+        </section>
+        <section class="panel review-player">
+          <div class="panel-title"><h3>Review player</h3><span id="player-label">Select source, line, or voice audio</span></div>
+          <audio id="player" controls preload="none"></audio>
+          <p id="qc-summary" class="muted"></p>
+          <p id="adapt-summary" class="muted hidden"></p>
+        </section>
+        <section class="panel script-panel">
+          <div class="panel-title"><div><h3>Dialogue review</h3><p class="muted">Correct speaker labels and English lines before rendering.</p></div><span id="line-count">0 lines</span><button id="song-mark-mode" class="secondary" title="Click the first and last line of an opening/ending song; marked lines keep the original audio and are never dubbed">Mark song range</button></div>
+          <div id="segments" class="segments"><div class="empty-small">Analysis has not run.</div></div>
+        </section>
+        <section class="panel event-panel"><div class="panel-title"><h3>Job history</h3><span>Metadata only</span></div><div id="events"></div></section>
+      </div>
+    </section>
+    <section id="casting-studio" class="panel hidden">
+      <div class="panel-title">
+        <div><h3>Casting studio</h3><p class="muted">Merge duplicate voices, name each character, audition demos, then lock the cast.</p></div>
+        <div class="studio-controls">
+          <label class="muted"><input type="checkbox" id="studio-official-audio"> official-EN audio in clips</label>
+          <input id="studio-series" placeholder="Series name (voice bank)">
+          <select id="studio-sort" class="mini" title="Row order">
+            <option value="clusters">Sort: likely-same together</option>
+            <option value="lines">Sort: most lines</option>
+            <option value="label">Sort: label order</option>
+          </select>
+          <button id="studio-prerender" class="secondary" title="One GPU arm renders every candidate demo before you sit down">Render demos</button>
+          <button id="studio-close" class="mini">Close</button>
+        </div>
+      </div>
+      <datalist id="studio-names"></datalist>
+      <div id="studio-rows"></div>
+      <div id="studio-spotcheck" class="hidden"></div>
+      <div class="studio-lock-bar">
+        <span id="studio-lock-state" class="muted"></span>
+        <div>
+          <button id="studio-spotcheck-open" class="secondary" title="Review only the lines the machine is unsure about; skipping is fine">Spot-check flagged lines</button>
+          <button id="studio-lock" class="primary accent" disabled>Cast lock</button>
+        </div>
+      </div>
+    </section>
+  </main>
+  <div id="video-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="video-title">
+    <div class="modal-card video-modal">
+      <div class="video-head"><h3 id="video-title">Clip</h3>
+        <span class="video-head-actions"><button id="video-longer" class="secondary" title="Re-cut this moment with more surrounding conversation">Longer clip</button><button id="video-episode" class="secondary" title="Open the whole episode here, parked just before this line — scrub freely">Watch in episode</button><button id="video-close" class="secondary" title="Close (Esc)">✕</button></span></div>
+      <video id="video-player" controls autoplay playsinline></video>
+      <small id="video-note" class="muted">first open cuts the clip — a few seconds…</small>
+    </div>
+  </div>
+  <div id="confirm-overlay" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+    <div class="modal-card">
+      <h3 id="confirm-title">Confirm</h3>
+      <p id="confirm-body"></p>
+      <div class="modal-actions">
+        <button id="confirm-cancel" class="secondary">Cancel</button>
+        <button id="confirm-ok" class="accent">Confirm</button>
+      </div>
+    </div>
+  </div>
+  <script src="app.js"></script>
+  <script src="studio.js"></script>
+</body>
+</html>

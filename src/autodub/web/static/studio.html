@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Casting studio — AutoDub</title>
+  <link rel="stylesheet" href="studio-page.css">
+</head>
+<body data-step="1">
+  <div id="topbar">
+    <a id="back" class="ghost" href="/">← job</a>
+    <div id="page-title">Casting studio</div>
+    <div id="steps">
+      <button class="step-tab active" data-step="1"><span class="step-n mono">1</span> Clean groups <span class="step-badge mono" id="badge-1"></span></button>
+      <button class="step-tab" data-step="2"><span class="step-n mono">2</span> Merge &amp; name <span class="step-badge mono" id="badge-2"></span></button>
+      <button class="step-tab" data-step="3"><span class="step-n mono">3</span> Voices <span class="step-badge mono" id="badge-3"></span></button>
+      <button class="step-tab" data-step="4"><span class="step-n mono">4</span> Lock <span class="step-badge mono" id="badge-4"></span></button>
+    </div>
+    <div class="spacer"></div>
+    <input id="series" placeholder="Series (voice bank)">
+    <select id="sort">
+      <option value="clusters">Sort: likely-same together</option>
+      <option value="lines">Sort: most lines</option>
+      <option value="label">Sort: label order</option>
+    </select>
+    <button id="render-demos" class="secondary" title="One GPU arm renders every candidate demo — the audition step then has zero waits">Render demos</button>
+    <button id="next-step" class="primary">Next step →</button>
+  </div>
+
+  <div id="step-hint" class="muted"></div>
+
+  <div id="rows"><p class="muted pad">Loading…</p></div>
+
+  <div id="drawer" class="hidden">
+    <div id="drawer-head">
+      <span class="mono accent" id="drawer-count">SAME PERSON?</span>
+      <span class="mono" id="drawer-pair"></span>
+      <span class="mono accent" id="drawer-sim"></span>
+      <div class="spacer"></div>
+      <span class="muted keys"><b class="mono">space</b> flip A/B · <b class="mono">S</b> same · <b class="mono">D</b> different · <b class="mono">→</b> next · <b class="mono">esc</b> close</span>
+    </div>
+    <div id="drawer-body">
+      <div id="drawer-listen">
+        <div class="ab-card" id="ab-a"><span class="ab-badge">A</span><div class="ab-meta"><span class="mono ab-label"></span><span class="muted ab-state"></span></div><div class="ab-track"><div class="ab-fill"></div></div><button class="ghost mini ab-next">next clip ⟳</button></div>
+        <div class="ab-card" id="ab-b"><span class="ab-badge">B</span><div class="ab-meta"><span class="mono ab-label"></span><span class="muted ab-state"></span></div><div class="ab-track"><div class="ab-fill"></div></div><button class="ghost mini ab-next">next clip ⟳</button></div>
+        <div id="drawer-verdicts">
+          <button id="verdict-same" class="confirm">Same — merge (S)</button>
+          <button id="verdict-diff" class="secondary">Different (D)</button>
+          <button id="verdict-unsure" class="ghost">Not sure</button>
+        </div>
+      </div>
+      <div id="drawer-timeline">
+        <div class="tl-head"><b>Where they speak</b><span id="tl-verdict"></span></div>
+        <div id="tl-lanes"></div>
+        <p id="tl-note" class="muted"></p>
+      </div>
+      <div id="drawer-transcripts"></div>
+    </div>
+  </div>
+
+  <div id="video-overlay" class="overlay hidden" role="dialog" aria-modal="true">
+    <div class="overlay-card">
+      <div class="overlay-head"><h3 id="video-title">Clip</h3>
+        <span class="overlay-actions">
+          <button id="video-longer" class="secondary">Longer clip</button>
+          <button id="video-episode" class="secondary" title="Whole episode, parked just before this line">Watch in episode</button>
+          <button id="video-close" class="secondary" title="Close (Esc)">✕</button>
+        </span></div>
+      <video id="video-player" controls autoplay playsinline></video>
+      <small id="video-note" class="muted">first open cuts the clip — a few seconds…</small>
+    </div>
+  </div>
+
+  <div id="confirm-overlay" class="overlay hidden" role="dialog" aria-modal="true">
+    <div class="overlay-card narrow">
+      <h3 id="confirm-title"></h3>
+      <p id="confirm-text"></p>
+      <div class="overlay-buttons"><button id="confirm-cancel" class="secondary">Cancel</button><button id="confirm-ok" class="primary"></button></div>
+    </div>
+  </div>
+
+  <datalist id="cast-names"></datalist>
+  <audio id="line-audio"></audio>
+  <div id="toast" class="hidden"></div>
+
+  <script src="studio-page.js"></script>
+</body>
+</html>

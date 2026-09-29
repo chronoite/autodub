@@ -1,0 +1,71 @@
+/* Theme tokens shared by every AutoDub page. */
+:root {
+  --bg: #0A0F1C;
+  --surface: #0F1626;
+  --panel: #161F33;
+  --line: rgba(146, 170, 219, 0.18);
+  --text: #E8EDF7;
+  --muted: #9DABC7;
+  --cyan: #22D3EE;
+  --blue: #4F7DF6;
+  --danger: #F2698E;
+  --green: #7DF0A0;
+}
+
+.topbar { background: rgba(10, 15, 28, 0.88); }
+.sidebar { background: #0B101E; }
+.panel { background: linear-gradient(145deg, #161F33, #0F1626); }
+
+/* Blue means action; cyan is reserved for alive/status signals. */
+.primary,
+.accent {
+  background: linear-gradient(135deg, #4F7DF6, #3B6EF6);
+  border-color: transparent;
+  color: white;
+  box-shadow: 0 6px 22px -8px rgba(79, 125, 246, 0.55);
+}
+.primary:hover,
+.accent:hover { background: linear-gradient(135deg, #6B97FF, #4F7DF6); }
+.success { background: #194E37; border-color: #3ECF8E; color: #EAFFF4; }
+
+select:focus,
+input:focus,
+textarea:focus {
+  outline: none;
+  border-color: #4F7DF6;
+  box-shadow: 0 0 0 3px rgba(79, 125, 246, 0.25);
+}
+
+*::-webkit-scrollbar { width: 9px; height: 9px; }
+*::-webkit-scrollbar-thumb {
+  background: rgba(120, 150, 210, 0.22);
+  border-radius: 999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+*::-webkit-scrollbar-track { background: transparent; }
+
+.voice-import {
+  margin-top: 16px;
+  border-top: 1px solid rgba(146, 170, 219, 0.12);
+  padding-top: 12px;
+  color: var(--muted);
+  font-size: 12px;
+}
+.voice-import summary { color: #67E8F9; cursor: pointer; font-weight: 650; }
+.voice-import p { line-height: 1.5; }
+.voice-import input,
+.voice-import textarea { display: block; width: 100%; margin-top: 8px; }
+.voice-import-row { display: flex; gap: 8px; margin-top: 8px; }
+.voice-import-row select { flex: 1; }
+.voice-import-state { display: block; min-height: 18px; margin-top: 7px; }
+
+.gpu-state {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 9px;
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+}
+.gpu-state.ready { border-color: #347752; color: var(--green); background: #163525; }
+.gpu-state.blocked { border-color: #6B532C; color: #FFD27A; background: #302511; }
