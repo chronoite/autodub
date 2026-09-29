@@ -24,6 +24,7 @@ classifiers = [
 
 [project.optional-dependencies]
 download = ["huggingface_hub>=0.25"]
+test = ["numpy>=1.26"]
 
 [project.scripts]
 autodub = "autodub.cli:main"

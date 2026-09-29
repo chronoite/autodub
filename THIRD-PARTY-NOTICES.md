@@ -9,9 +9,9 @@ governed by its own license. By installing and using a component you accept its 
 The table records the license each project declares so users can check compatibility with their
 intended use.
 
-Licenses were taken from the installed package metadata, the model cards, and the LICENSE files
-shipped with each component at the versions listed. Items marked † could not be checked from an
-installed copy; confirm them at the linked source.
+Licenses were taken from the installed package metadata, the model cards at the pinned revisions,
+the LICENSE files shipped with each component, and each upstream repository's declared license
+(checked September 2026). Licenses can change between versions; recheck when upgrading.
 
 ## Model weights (downloaded by `scripts/download_models.py`)
 
@@ -54,9 +54,9 @@ right to use, and respect the rights of the performers and owners of any source 
 | Program | Used for | License | Source |
 |---|---|---|---|
 | FFmpeg / ffprobe | all media decoding, mixing, muxing | LGPL-2.1+ or GPL-2.0+/GPL-3.0 depending on the build you install | https://ffmpeg.org/legal.html |
-| KoboldCpp †, optional | serves the Qwen3-14B GGUF for dialogue adaptation, run as a separate local process | AGPL-3.0 | https://github.com/LostRuins/koboldcpp |
+| KoboldCpp, optional | serves the Qwen3-14B GGUF for dialogue adaptation, run as a separate local process | AGPL-3.0 | https://github.com/LostRuins/koboldcpp |
 | CosyVoice source, optional | CosyVoice3 inference code | Apache-2.0 | https://github.com/FunAudioLLM/CosyVoice |
-| GPT-SoVITS †, optional | alternative clone voice via its local HTTP API | MIT | https://github.com/RVC-Boss/GPT-SoVITS |
+| GPT-SoVITS, optional | alternative clone voice via its local HTTP API | MIT | https://github.com/RVC-Boss/GPT-SoVITS |
 
 AutoDub talks to KoboldCpp and GPT-SoVITS only over loopback HTTP as separate processes and does
 not include, link, or modify their code.

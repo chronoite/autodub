@@ -1,0 +1,2 @@
+# Extra packages for the unit suite. Worker helper logic that uses NumPy is tested directly.
+numpy>=1.26

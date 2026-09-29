@@ -3,6 +3,7 @@
 ## Unit and contract tests
 
 ```bash
+pip install -r requirements/test.txt      # NumPy, used by worker helpers under test
 python -m unittest discover -s tests -t .
 ```
 
