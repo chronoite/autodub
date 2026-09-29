@@ -1,2 +1,2 @@
-# Extra packages for the unit suite. Worker helper logic that uses NumPy is tested directly.
-numpy>=1.26
+# Test dependencies live in pyproject.toml ([project.optional-dependencies] test).
+-e .[test]

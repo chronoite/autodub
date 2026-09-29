@@ -3,7 +3,7 @@
 ## Unit and contract tests
 
 ```bash
-pip install -r requirements/test.txt      # NumPy, used by worker helpers under test
+pip install -e ".[test]"                  # adds NumPy, used by worker helpers under test
 python -m unittest discover -s tests -t .
 ```
 
@@ -39,6 +39,6 @@ python scripts/verify_models.py --quick  # sizes only
 
 ## Continuous integration
 
-`.github/workflows/ci.yml` runs the unit suite on Ubuntu and Windows with Python 3.11 and 3.12,
+`.github/workflows/ci.yml` runs the unit suite on Ubuntu and Windows with Python 3.11, 3.12 and 3.13,
 byte-compiles every module, and syntax-checks the web UI scripts. CI has no models or GPU, so
 inference tests skip there; the smoke test is the local counterpart.

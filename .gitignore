@@ -42,3 +42,12 @@ Thumbs.db
 
 # Local tooling
 /.claude/
+
+# More local artifacts
+.env.*
+!.env.example
+.coverage
+htmlcov/
+.mypy_cache/
+.ruff_cache/
+*.log

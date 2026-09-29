@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=68"]
+requires = ["setuptools>=77"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -7,7 +7,9 @@ name = "autodub"
 version = "0.2.0"
 description = "Experimental local, human-in-the-loop Japanese-to-English anime dubbing pipeline (personal research project)"
 readme = "README.md"
-license = { file = "LICENSE" }
+license = "MIT"
+license-files = ["LICENSE", "THIRD-PARTY-NOTICES.md"]
+keywords = ["anime", "dubbing", "tts", "voice-cloning", "whisper", "speaker-diarization", "translation", "offline"]
 authors = [{ name = "Collin Loy" }]
 requires-python = ">=3.11"
 # The orchestrator, HTTP server and web UI use only the standard library. Model inference runs in
@@ -18,7 +20,9 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
-    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.13",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: POSIX :: Linux",
     "Topic :: Multimedia :: Sound/Audio :: Speech",
     "Topic :: Multimedia :: Video",
 ]
@@ -26,6 +30,11 @@ classifiers = [
 [project.optional-dependencies]
 download = ["huggingface_hub>=0.25"]
 test = ["numpy>=1.26"]
+
+[project.urls]
+Homepage = "https://github.com/chronoite/autodub"
+Documentation = "https://github.com/chronoite/autodub/tree/main/docs"
+Issues = "https://github.com/chronoite/autodub/issues"
 
 [project.scripts]
 autodub = "autodub.cli:main"
