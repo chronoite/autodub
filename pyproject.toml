@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "autodub"
 version = "0.2.0"
-description = "Local, offline, human-in-the-loop Japanese-to-English anime dubbing pipeline"
+description = "Experimental local, human-in-the-loop Japanese-to-English anime dubbing pipeline (personal research project)"
 readme = "README.md"
 license = { file = "LICENSE" }
 authors = [{ name = "Collin Loy" }]
@@ -14,6 +14,7 @@ requires-python = ">=3.11"
 # separate worker environments; see requirements/ and docs/SETUP.md.
 dependencies = []
 classifiers = [
+    "Development Status :: 3 - Alpha",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",

@@ -1,6 +1,15 @@
 # AutoDub
 
-**A local, offline, human-in-the-loop pipeline that turns Japanese anime episodes into English dubs.**
+**An experimental, local, human-in-the-loop pipeline for turning Japanese anime episodes into English dubs.**
+
+> [!NOTE]
+> **Status: personal research project — experimental, not a finished product.**
+> AutoDub is a learning and engineering exercise in orchestrating many local AI models into one
+> reviewable workflow. Dub quality is rough and uneven, several features are marked experimental
+> in the app itself, setup is involved (multiple Python environments, large model downloads, an
+> NVIDIA GPU for the quality path), and it has only been used on one Windows workstation. It is
+> shared as a portfolio piece to show the design, not as software ready for general use. Expect
+> breaking changes and no support.
 
 AutoDub takes a video file and produces an English-dubbed copy: it separates dialogue from music
 and effects, transcribes and translates the Japanese, works out who is speaking, clones each
@@ -137,6 +146,18 @@ scripts/                     model download/verification, smoke test, calibratio
 tests/                       unit, contract and end-to-end tests
 docs/                        architecture, setup, GPU coordination, testing
 ```
+
+## Known limitations
+
+- **Quality is uneven.** Voice cloning, speaker separation and timing fit work well on some scenes
+  and poorly on others; a human pass is required, and even then the result is not broadcast grade.
+- **Japanese → English only**, tuned on anime with clear dialogue; songs, crowd scenes and heavy
+  overlap are handled by conservative heuristics that can be wrong.
+- **Heavy setup.** Five worker environments are possible; the CPU path needs one, the GPU path two.
+  Models total tens of gigabytes.
+- **Tested on one machine** (Windows 11, NVIDIA GPU). Linux is covered by the unit tests only.
+- **Experimental features** (song detection, dialogue adaptation, TTS model comparisons) are
+  labelled as such in the UI.
 
 ## Responsible use
 
