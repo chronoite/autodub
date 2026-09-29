@@ -7,6 +7,7 @@ import json
 
 from autodub.config import WORK_ROOT
 from autodub.experiment_store import create_run
+from autodub.state import valid_job_id
 
 
 def main() -> None:
@@ -14,9 +15,7 @@ def main() -> None:
     parser.add_argument("--experiment", required=True)
     parser.add_argument("--job", required=True)
     args = parser.parse_args()
-    if not args.job.startswith("dub-") or any(
-        char not in "abcdefghijklmnopqrstuvwxyz0123456789-" for char in args.job
-    ):
+    if not valid_job_id(args.job):
         raise SystemExit("job must be an opaque AutoDub job ID")
     try:
         manifest = create_run(args.experiment, args.job)

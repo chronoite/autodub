@@ -3,6 +3,7 @@ from __future__ import annotations
 import base64
 import json
 import mimetypes
+import os
 import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -26,7 +27,7 @@ from .episode_queue import clear_finished, enqueue, queue_state, request_stop, r
 from .pipeline import analyze, preview_line, realign_existing, remix_existing, render, repair_line
 from .policies import get_mix_policy, get_space_policy, get_timing_policy, public_policies
 from .policy_experiment import build_policy_experiment
-from .quality_profiles import DEFAULT_PROFILE, get_profile, profile_requires_gpu, public_profiles
+from .quality_profiles import CPU_PROFILE, DEFAULT_PROFILE, get_profile, profile_requires_gpu, public_profiles
 from . import evidence_prewarm
 from .review import episode_video, evidence_audio, evidence_frame, evidence_video, rendered_preview, source_preview, srt_export, voice_reference
 from . import characters, series, voice_bank
@@ -88,6 +89,8 @@ class AutoDubHandler(BaseHTTPRequestHandler):
 
     def log_message(self, fmt: str, *args) -> None:
         # Never log requested URLs or source metadata. Only method/status is operationally useful.
+        if os.environ.get("AUTODUB_QUIET_ACCESS_LOG"):
+            return
         status = args[1] if len(args) > 1 else "-"
         print(f"[autodub-ui] {self.command} {status}")
 
@@ -539,7 +542,7 @@ class AutoDubHandler(BaseHTTPRequestHandler):
             elif len(parts) == 4 and parts[:2] == ["api", "jobs"] and parts[3] in {"analyze", "render"}:
                 job_id, action = parts[2], parts[3]
                 job = load_job(job_id)
-                profile = job.get("settings", {}).get("quality_profile", "prototype-cpu-v1")
+                profile = job.get("settings", {}).get("quality_profile", CPU_PROFILE)
                 gpu_authorized = False
                 if profile_requires_gpu(profile):
                     gpu_authorized = consume_arm(job_id, action)

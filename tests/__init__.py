@@ -17,6 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SRC = ROOT / "src"
 if str(SRC) not in sys.path:
     sys.path.insert(0, str(SRC))
+os.environ.setdefault("AUTODUB_QUIET_ACCESS_LOG", "1")   # keep test output readable
 os.environ["PYTHONPATH"] = str(SRC) + os.pathsep + os.environ.get("PYTHONPATH", "")
 
 # Always a fresh temporary home, even if AUTODUB_HOME is set in the shell: tests must never touch

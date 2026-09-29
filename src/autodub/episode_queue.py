@@ -12,7 +12,7 @@ import time
 
 from . import config, oplog, thermal
 from .config import WORK_ROOT
-from .quality_profiles import profile_requires_gpu
+from .quality_profiles import CPU_PROFILE, profile_requires_gpu
 from .state import event, load_job, replace_retry, utc_now
 
 
@@ -64,7 +64,7 @@ def enqueue(job_ids: list[str]) -> dict:
                     "job": str(job_id),
                     "status": "queued",
                     "requires_gpu": profile_requires_gpu(
-                        job.get("settings", {}).get("quality_profile", "prototype-cpu-v1")
+                        job.get("settings", {}).get("quality_profile", CPU_PROFILE)
                     ),
                     "added_at": utc_now(),
                 }

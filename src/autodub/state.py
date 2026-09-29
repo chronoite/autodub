@@ -32,8 +32,13 @@ def new_job_id() -> str:
     return f"dub-{stamp}-{secrets.token_hex(2)}"
 
 
+def valid_job_id(job_id: str) -> bool:
+    """Job IDs are opaque ``dub-...`` tokens of lowercase letters, digits and hyphens."""
+    return job_id.startswith("dub-") and all(c in "abcdefghijklmnopqrstuvwxyz0123456789-" for c in job_id)
+
+
 def job_dir(job_id: str) -> Path:
-    if not job_id.startswith("dub-") or any(c not in "abcdefghijklmnopqrstuvwxyz0123456789-" for c in job_id):
+    if not valid_job_id(job_id):
         raise ValueError("invalid job id")
     return WORK_ROOT / "jobs" / job_id
 
