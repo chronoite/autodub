@@ -396,7 +396,7 @@
         "music_and_effect_preservation",
         "overall_watchability"
       ],
-      "required_material": "reviewed job with rendered lines; window @240s/75s (25 lines, 4 speakers)"
+      "required_material": "reviewed job with rendered lines; a 75-second window of busy multi-speaker conversation"
     },
     {
       "id": "dub-duck-v1",
@@ -450,7 +450,7 @@
         "music_and_effect_preservation",
         "overall_watchability"
       ],
-      "required_material": "reviewed job with rendered lines; window @375s/75s (bed-dominant, 24% speech)"
+      "required_material": "reviewed job with rendered lines; a 75-second window where music/effects dominate and speech is sparse"
     },
     {
       "id": "dub-timing-v1",
@@ -494,7 +494,7 @@
         "pacing_naturalness",
         "overall_watchability"
       ],
-      "required_material": "reviewed job with rendered lines; window @585s/75s (6 speakers, 1 overlap)"
+      "required_material": "reviewed job with rendered lines; a 75-second window with the most speakers and some overlap"
     }
   ]
 }

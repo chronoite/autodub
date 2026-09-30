@@ -58,19 +58,19 @@ class PlanContracts(unittest.TestCase):
 
 
 class ValidatorContracts(unittest.TestCase):
-    ANCHOR = "Marco won't give the 3 crystals to Oliver, will he?"
+    ANCHOR = "Marco won't give the 3 tickets to Oliver, will he?"
 
     def test_good_rewrite_passes(self):
         ok, reason = adaptation.validate_rewrite(
-            self.ANCHOR, "Marco won't hand Oliver the 3 crystals, right?")
+            self.ANCHOR, "Marco won't hand Oliver the 3 tickets, right?")
         self.assertTrue(ok, reason)
 
     def test_meaning_damage_blocked(self):
         cases = {
-            "Marco gives the 3 crystals to Oliver, right?": "polarity-changed",
-            "Marco won't give the crystals to Oliver, will he?": "dropped-number:3",
-            "He won't give the 3 crystals to him, will he?": "dropped-name:Oliver",
-            "Marco won't give Oliver the 3 crystals.": "question-form-changed",
+            "Marco gives the 3 tickets to Oliver, right?": "polarity-changed",
+            "Marco won't give the tickets to Oliver, will he?": "dropped-number:3",
+            "He won't give the 3 tickets to him, will he?": "dropped-name:Oliver",
+            "Marco won't give Oliver the 3 tickets.": "question-form-changed",
             "": "empty",
         }
         for candidate, expected in cases.items():

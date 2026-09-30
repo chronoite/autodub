@@ -67,7 +67,7 @@ class ApplyBestContracts(unittest.TestCase):
         self.assertEqual(self.saved["job"]["segments"][0]["adapt"]["engine"], "qwen")
 
     def test_invalid_candidates_fall_back_to_anchor_residue(self):
-        anchor = "Marco keeps his 3 crystals safe."
+        anchor = "Marco keeps his 3 tickets safe."
         self.job = _job([{"i": 0, "start": 0.0, "end": 1.0, "text": "x",
                           "translation": anchor + " " + "padding " * 6, "speaker": "s1"}])
         self._write("external", {0: "He keeps them safe."})      # drops Marco and 3
@@ -80,16 +80,16 @@ class ApplyBestContracts(unittest.TestCase):
     def test_explicit_pick_overrides_the_validator(self):
         # Anchor polluted with OCR'd screen text: every honest rewrite "drops" the stat
         # digits, so only a reviewed pick can rescue the line.
-        anchor = "HP 4 MP 2 ENDURANCE 3 Come forth, my summon!"
+        anchor = "SCORE 4 LAP 2 SPEED 3 Let's get moving now!"
         self.job = _job([{"i": 0, "start": 0.0, "end": 1.0, "text": "x",
                           "translation": anchor, "speaker": "s1"}])
-        self._write("external", {0: "Come forth!"})
+        self._write("external", {0: "Let's go!"})
         adaptation_runner.apply_best("dub-test", ["external"])
         self.assertEqual(self.saved["job"]["segments"][0]["adapt"]["engine"], "anchor")
         adaptation_runner.apply_best("dub-test", ["external"], picks={"0": "external"})
         segment = self.saved["job"]["segments"][0]
         self.assertEqual(segment["adapt"]["engine"], "external")
-        self.assertEqual(segment["translation"], "Come forth!")
+        self.assertEqual(segment["translation"], "Let's go!")
 
     def test_neither_fits_shortest_valid_wins_as_residue(self):
         self.job = _job([{"i": 0, "start": 0.0, "end": 1.0, "text": "x",

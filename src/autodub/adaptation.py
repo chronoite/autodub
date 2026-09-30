@@ -129,7 +129,7 @@ def _names(text: str) -> set[str]:
     """Name-shaped words NOT at a sentence start = names to preserve (one-sided heuristic).
 
     Name-shaped = Xxxx… exactly (len >= 3, no apostrophes, rest lowercase): "Lena" yes,
-    "I've" no, and OCR'd screen text (ATTACK:, ENDURANCE:) no — all-caps junk glued into
+    "I've" no, and OCR'd screen text (SCORE:, SPEED:) no — all-caps junk glued into
     subtitle anchors must not lock every honest rewrite out."""
     names: set[str] = set()
     sentence_start = True
