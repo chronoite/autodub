@@ -117,6 +117,7 @@ Two quality profiles are built in:
 - [Testing](docs/TESTING.md) — unit suite, smoke test, model verification, CI
 - [Experiments](src/autodub/experiments/README.md) — the A/B experiment registry and executors
 - [Changelog](CHANGELOG.md)
+- [Credits](#built-on-the-work-of-others) and [third-party notices](THIRD-PARTY-NOTICES.md)
 
 ## Quick start
 
@@ -213,6 +214,31 @@ docs/                        architecture, setup, GPU coordination, testing
   their behaviour is pinned by tests first.
 - **Experimental features.** Song detection is labelled experimental in the UI; dialogue
   adaptation and the TTS comparisons are the least tested parts.
+
+## Built on the work of others
+
+AutoDub's own contribution is the orchestration: the workflow, review tooling, voice bank, timing
+and mixing logic, and safety guards that tie these projects together. The hard parts — hearing,
+separating, identifying, translating and speaking — are done entirely by open models and tools
+built by other people, and none of them are mine:
+
+| Task | Project | By |
+|---|---|---|
+| Speech recognition | [Whisper](https://github.com/openai/whisper) via [faster-whisper](https://github.com/SYSTRAN/faster-whisper) / CTranslate2 | OpenAI; SYSTRAN / OpenNMT |
+| Dialogue / music separation | [Demucs](https://github.com/adefossez/demucs) (htdemucs_ft) | Alexandre Défossez, Meta AI |
+| Speaker diarization | [pyannote.audio](https://github.com/pyannote/pyannote-audio), [speaker-diarization-community-1](https://huggingface.co/pyannote/speaker-diarization-community-1) | Hervé Bredin, pyannote / CNRS |
+| Forced alignment | [WhisperX](https://github.com/m-bain/whisperX) with [wav2vec2-large-xlsr-53-japanese](https://huggingface.co/jonatasgrosman/wav2vec2-large-xlsr-53-japanese) | Max Bain et al.; Jonatas Grosman, on Meta's wav2vec 2.0 |
+| Translation | [opus-mt-ja-en](https://huggingface.co/Helsinki-NLP/opus-mt-ja-en) (MarianMT) | Helsinki-NLP / University of Helsinki |
+| Voice cloning | [Qwen3-TTS](https://github.com/QwenLM/Qwen3-TTS) | Qwen team, Alibaba |
+| Dialogue adaptation LLM | [Qwen3-14B](https://huggingface.co/Qwen/Qwen3-14B-GGUF) served by [KoboldCpp](https://github.com/LostRuins/koboldcpp) (llama.cpp) | Qwen team, Alibaba; LostRuins, ggml / llama.cpp contributors |
+| Experimental TTS | [Chatterbox](https://github.com/resemble-ai/chatterbox), [CosyVoice](https://github.com/FunAudioLLM/CosyVoice), [GPT-SoVITS](https://github.com/RVC-Boss/GPT-SoVITS) | Resemble AI; Alibaba Tongyi Lab; RVC-Boss |
+| Everything media | [FFmpeg](https://ffmpeg.org/) | FFmpeg developers |
+| Machine-learning foundation | [PyTorch](https://pytorch.org/), [Hugging Face Transformers](https://github.com/huggingface/transformers), NumPy, librosa, scikit-learn | their respective communities |
+
+Every component's license, and the full list of packages it pulls in, is in
+[THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md). If you use the pyannote pipeline for research,
+please cite the papers listed on its model card. The project itself was developed with an AI coding
+assistant (see the status note at the top).
 
 ## Responsible use
 
