@@ -3,6 +3,9 @@
 PyPI 0.1.7 predates the small `t3_model="v3"` loader addition now present upstream, so this worker
 constructs the official V3 stack from the same installed library components and the exact local
 official weights.  It never calls `from_pretrained` or any downloader.
+
+The `_load` routine follows `ChatterboxMultilingualTTS.from_local` in chatterbox-tts
+(Copyright (c) 2025 Resemble AI, MIT License; see THIRD-PARTY-NOTICES.md).
 """
 from __future__ import annotations
 
